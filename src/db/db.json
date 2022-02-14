@@ -1,18 +1,21 @@
 {
     "articles": [{
             "id": 1,
-            "contents": "내용1",
-            "image": "이미지1"
+            "user_id": "user_id1",
+            "image_url": "http://www.ipon.co.kr/common/img/default_profile.png",
+            "contents": "내용1"
         },
         {
             "id": 2,
-            "contents": "내용2",
-            "image": "이미지2"
+            "user_id": "user_id2",
+            "image_url": "http://www.ipon.co.kr/common/img/default_profile.png",
+            "contents": "내용2"
         },
         {
             "id": 3,
-            "contents": "내용3",
-            "image": "이미지3"
+            "user_id": "user_id3",
+            "image_url": "http://www.ipon.co.kr/common/img/default_profile.png",
+            "contents": "내용3"
         }
     ]
 }
