@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useState} from 'react';
+import Button from '../element/Button'
 import { Route } from 'react-router';
 import { Main, Login, Register, Detail, Edit, PostWrite} from '../pages/index';
 import Header from '../component/Header';
@@ -9,9 +10,17 @@ import styled from "styled-components";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from 'react-redux';
+import axios from 'axios';
 
 function App() {
   const is_login = useSelector((state) => state.user.is_login);
+  const [data, setData] = useState(null);
+  const onClick = () => {
+    axios.get('http://localhost:3001/articles').then((response) =>{
+      setData(response.data);
+      console.log(response.data);
+    })
+  }
   
   return (
     <div className="App">
@@ -24,6 +33,7 @@ function App() {
         <Route path="/edit" component={Edit} exact></Route>
         <Route path="/detail" component={Detail} exact></Route>
       </ConnectedRouter>
+      <Button text="test" onClick={onClick}></Button>
       {
         is_login === true ? <FixdBtn onClick={() => {history.push('/postwrite');}}><FontAwesomeIcon icon={faPenToSquare} className="btn_icon" /></FixdBtn> : null
       }
