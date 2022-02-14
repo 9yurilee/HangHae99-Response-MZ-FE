@@ -14,6 +14,7 @@ const Button = (props) => {
     size,
     bg,
     color,
+    disabled,
   } = props;
 
   const styles = {
@@ -24,6 +25,7 @@ const Button = (props) => {
     height,
     bg,
     color,
+    disabled,
   };
 
   return (
@@ -45,6 +47,7 @@ Button.defaultProps = {
   bg: false,
   color: "#fff",
   size: "15px",
+  disabled: false,
 };
 
 const ElButton = styled.button`
@@ -63,6 +66,7 @@ const ElButton = styled.button`
   margin: ${(props) => props.margin};
   font-size: ${(props) => props.size};
   font-family: "DungGeunMo";
+  ${(props)=> (props.disabled ? `background-color: #f47b6a80;` : `background-color: #f47b6a;`)}
 `;
 
 export default Button;
