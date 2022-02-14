@@ -23,8 +23,8 @@ const Post = (props) => {
           />
           <Text minWidth="300px" bg="#59c1c2" margin="0px 20px">
             <Text>{props.user_info.user_id}</Text>
+            <Text>{props.insert_dt}</Text>
             <Text height="300">{props.contents}</Text>
-            <Text>도ㅣ고 있ㅣ?</Text>
           </Text>
         </Grid>
       </Grid>
