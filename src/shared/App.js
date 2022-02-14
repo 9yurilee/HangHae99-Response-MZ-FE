@@ -9,11 +9,16 @@ import {history} from "../redux/configStore";
 import styled from "styled-components";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
-import { useSelector } from 'react-redux';
+
+import { useDispatch, useSelector } from "react-redux";
+import { actionCreators as loginActions } from "../redux/modules/user";
 import axios from 'axios';
 
 function App() {
+  const dispatch = useDispatch();
+
   const is_login = useSelector((state) => state.user.is_login);
+  
   const [data, setData] = useState(null);
   const onClick = () => {
     axios.get('http://localhost:3001/articles').then((response) =>{
@@ -21,6 +26,10 @@ function App() {
       console.log(response.data);
     })
   }
+  
+    React.useEffect(() => {
+    dispatch(loginActions.loginCheckDB());
+  }, []);
   
   return (
     <div className="App">
