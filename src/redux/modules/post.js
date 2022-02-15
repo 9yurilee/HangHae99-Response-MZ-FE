@@ -54,13 +54,19 @@ const getPostFB = () => {
   };
 };
 
-const addPostFB = () => {
+const addPostFB = (image_url, title, user_id, year, contents) => {
   return function (dispatch, getState, { history }) {
     api_post
-      .post("/api/articles", {
+      .post("/api/articles", { 
+        image_url,
+        title,
+        user_id,
+        year,
+        contents, //서버는 content인데,,
       })
       .then(function (response) {
-        console.log(response);
+        console.log(response)
+        addPost()
       })
       .catch(function (error) {
         console.log(error);
@@ -77,6 +83,7 @@ export default handleActions(
     [ADD_POST]: (state, action) =>
       produce(state, (draft) => {
         draft.list.unshift(action.payload.post);
+        console.log(action.payload.post);
       }),
   },
   initialState
