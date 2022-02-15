@@ -2,9 +2,9 @@ import React from "react";
 import { actionCreators as postActions } from "../redux/modules/post";
 import { useSelector, useDispatch } from "react-redux";
 import { Button, Grid, Image, Text, Input } from "../element/index";
-import Upload from '../shared/Upload';
+import Upload from "../shared/Upload";
 import { history } from "../redux/configStore";
-import { actionCreators as imageActions } from '../redux/modules/image';
+import { actionCreators as imageActions } from "../redux/modules/image";
 
 const PostWrite = (props) => {
   const dispatch = useDispatch();
@@ -14,7 +14,9 @@ const PostWrite = (props) => {
   const preview = useSelector((state) => state.image.preview);
   const title = useSelector((state) => state.post.title);
   const user_id = useSelector((state) => state.user_id);
-  const year = useSelector((state) => state.year);
+
+  const post_id = props.match.params.id;
+  console.log(post_id)
 
   // const post_list = useSelector((state) => state.post.list);
   //_post_id 어케 받아올지 생각
@@ -23,15 +25,24 @@ const PostWrite = (props) => {
   // const is_edit = _post_id ? true : false;
   // let _post = is_edit ? post_list.find((p) => p.id === _post_id) : null;
   // const [contents, setContents] = React.useState(_post ? _post.contents : '');
+
   const [contents, setContents] = React.useState("");
+  const [year, setYear] = React.useState("");
 
   const changeContents = (e) => {
     setContents(e.target.value);
     console.log(e.target.value);
   };
 
+  const is_checked = (e) => {
+    if (e.target.checked) {
+      setYear(e.target.value);
+      console.log(e.target.value);
+    }
+  };
+
   const addPost = (image, title, user_id, year, contents) => {
-    dispatch(postActions.addPostFB())
+    dispatch(postActions.addPostFB());
   };
   // const editPost = () => {
   //   dispatch(postActions.editPostFB(post_id, { contents: layout  }));
@@ -57,9 +68,10 @@ const PostWrite = (props) => {
 
   return (
     <React.Fragment>
-      <Text margin="85px 0px 0px 10px" size="36px" bold>게시물 작성
-          {/* {is_edit ? '게시글 수정' : '게시글 작성'} */}
-        </Text>
+      <Text margin="85px 0px 0px 10px" size="36px" bold>
+        게시물 작성
+        {/* {is_edit ? '게시글 수정' : '게시글 작성'} */}
+      </Text>
       <Grid margin="90px auto" width="700" height="500">
         <Grid is_flex borderRadius="10">
           <Image
@@ -68,13 +80,14 @@ const PostWrite = (props) => {
             src={
               preview
                 ? preview
-                : 'https://cdn1.vectorstock.com/i/1000x1000/50/20/no-photo-or-blank-image-icon-loading-images-vector-37375020.jpg'
+                : "https://cdn1.vectorstock.com/i/1000x1000/50/20/no-photo-or-blank-image-icon-loading-images-vector-37375020.jpg"
             }
             margin="20px 5px"
           />
           <Grid height="300">
             <Upload />
-            <Text text="타이틀"></Text> <Input type="text" _onChange={changeContents}/>
+            <Text text="타이틀"></Text>{" "}
+            <Input type="text" _onChange={changeContents} />
             <Text
               bold
               // margin="0px 0px 10px 0px"
@@ -83,18 +96,19 @@ const PostWrite = (props) => {
               bg="#59c1c2"
               text="추억의 연도"
             />
-            <Grid display="flex" alignItems="center">
+            <Grid display="inline-box" alignItems="center">
               <input
-                style={{ background: "#59c1c2", margin: "5px" }}
                 type="radio"
                 name="year"
                 value="80s"
-                id="80s"
-              />{" "}
-              1980년대
-              <input type="radio" name="year" value="90s" id="90s" /> 1990년대
-              <input type="radio" name="year" value="2000s" id="2000s" />{" "}
-              2000년대
+                id="1980s"
+                onChange={is_checked}
+              />
+              80년대 추억
+              <input type="radio" name="year" value="90s" id="90s" onChange={is_checked} /> 90년대
+              추억
+              <input type="radio" name="year" value="2000s" id="2000s" onChange={is_checked}/>{" "}
+              2000년대 이후 추억
             </Grid>
             <Grid>
               <Text
@@ -104,7 +118,7 @@ const PostWrite = (props) => {
                 textAlign="left"
                 text="게시물 내용"
               />
-              <Input _onChange={changeContents}/>
+              <Input _onChange={changeContents} />
             </Grid>
           </Grid>
         </Grid>
@@ -125,6 +139,14 @@ const PostWrite = (props) => {
             text="작성하기"
             _onClick={addPost}
           ></Button>
+          {/* 수정하면 */}
+          {/* <Grid padding="25px">
+            {is_edit ? (
+              <Button text="게시글 수정" _onClick={editPost}></Button>
+            ) : (
+              <Button text="게시글 작성" _onClick={addPost}></Button>
+            )}
+          </Grid> */}
         </Grid>
       </Grid>
     </React.Fragment>

@@ -12,7 +12,6 @@ import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import {getCookie} from "./Cookie"
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as loginActions } from "../redux/modules/user";
-import axios from 'axios';
 
 
 function App() {

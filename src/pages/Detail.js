@@ -29,22 +29,22 @@ const Detail = (props) => {
   return (
     <>
       {post && (
-        <>
-          <Text bold size="24px">
+        <Grid>
+           <Text bold size="24px">
             상세페이지
           </Text>
           <Post {...post} is_me={post_data.user_id === post_data?.id} />
           {/*  is_me={post.user_info.user_id === user_info?.uid} */}
           {/*  is_me={post_data.user_info.user_id === user_info?.uid} */}
 
-          <Grid>
+          <Grid is_flex_center>
             <Button
               text="수정"
               width="auto"
               padding="4px"
               margin="4px"
               _onClick={() => {
-                history.push(`/write/${post_data.id}`);
+                history.push(`/write/${post_data.post_id}`);
               }}
             />
             <Button
@@ -79,7 +79,9 @@ const Detail = (props) => {
             <CommentList></CommentList>
             <CommentWrite></CommentWrite>
           </CommentBox>
-        </>
+
+        </Grid>
+        
       )}
     </>
   );

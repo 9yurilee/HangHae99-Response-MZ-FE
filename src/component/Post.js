@@ -27,14 +27,15 @@ const Post = (props) => {
             margin="20px 5px"
           />
           <Text minWidth="300px" bg="#59c1c2" margin="0px 20px">
-            <Text>{props.user_id}</Text>
-            <Text>{props.date}</Text>
+            <Grid margin="0px 0px 25px 0px" is_flex_between>
+              <Text >{props.user_id}</Text>
+              <Text size >{props.date}</Text>
+            </Grid>
             <Text height="300">{props.contents}</Text>
           </Text>
         </Grid>
       </Grid>
-      <Grid>
-      </Grid>
+      <Grid></Grid>
     </React.Fragment>
   );
 };

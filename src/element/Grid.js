@@ -15,7 +15,8 @@ const Grid = (props) => {
     borderRadius,
     position,
     _onClick,
-    is_flex_center
+    is_flex_center,
+    is_flex_between,
   } = props;
 
   const styles = {
@@ -29,7 +30,8 @@ const Grid = (props) => {
     border: border,
     borderRadius,
     position,
-    is_flex_center
+    is_flex_center,
+    is_flex_between,
   };
   return (
     <div>
@@ -67,10 +69,17 @@ const GridBox = styled.div`
     props.is_flex
       ? `display: flex; align-items: center; justify-content: space-evenly;`
       : ""}
-  ${(props) => props.is_flex_center ? `display: flex; align-items: center; justify-content: center;` : ""}
+  ${(props) =>
+    props.is_flex_between
+      ? `display: flex; justify-content: space-between;`
+      : ""}   
+  ${(props) =>
+    props.is_flex_center
+      ? `display: flex; align-items: center; justify-content: center;`
+      : ""}
   ${(props) => (props.center ? `text-align: center` : "")}
   ${(props) => (props.border ? `border-bottom: ${props.border}` : "")}
   border-radius: ${(props) => props.borderRadius};
-  `;
+`;
 
 export default Grid;
