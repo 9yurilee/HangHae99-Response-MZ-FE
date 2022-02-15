@@ -7,12 +7,12 @@ export const api = axios.create({
   headers: {
     "content-type": "application/json;charset=UTF-8",
     accept: "application/json,",
-    authorization: `${accessToken}`,
+    // authorization: `${accessToken}`,
   },
 });
 
 export const api_token = axios.create({
-  baseURL: "http://54.180.137.157:8080/api",
+  baseURL: "",
   headers: {
     "content-type": "application/json;charset=UTF-8",
     accept: "application/json,",
