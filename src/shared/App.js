@@ -14,27 +14,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as loginActions } from "../redux/modules/user";
 import axios from 'axios';
 
+
 function App() {
   const dispatch = useDispatch();
   const is_login = getCookie("is_login")? true : false;
   const user = useSelector((state) => state.user);
 
   console.log(user);
-
-  const [data, setData] = useState(null);
-  const onClick = () => {
-    axios.get('http://localhost:3001/articles').then((response) =>{
-      setData(response.data);
-      console.log(response.data);
-    })
-  }
   
     React.useEffect(() => {
       if(is_login){
         dispatch(loginActions.loginCheckDB());
       }
   }, []);
-  
   return (
     <div className="App">
       <ConnectedRouter history={history}>
