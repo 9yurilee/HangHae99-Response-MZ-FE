@@ -15,9 +15,7 @@ const Detail = (props) => {
   console.log(post_list);
 
   const id = props.match.params.post_id;
-  console.log(props);
   const post_idx = post_list.findIndex((p) => p.post_id === id);
-  console.log(props.post_id);
   console.log(post_idx);
   const post_data = post_list[post_idx];
   console.log(post_data);
@@ -40,13 +38,15 @@ const Detail = (props) => {
           <Image
             width="350"
             height="300"
-            src={post_list.image_url}
+            src={post_data.image_url}
             margin="20px 5px"
           />
           <Text minWidth="300px" bg="#59c1c2" margin="0px 20px">
-            <Text>{post_list.user_id}</Text>
-            <Text>{post_list.insert_dt}</Text>
-            <Text height="300">{post_list.contents}</Text>
+            <Text>{post_data.title}제목</Text>
+            <Text>{post_data.user_id}아이디</Text>
+            <Text>{post_data.year}연도</Text>
+            <Text>{post_data.insert_dt}시간이당~~</Text>
+            <Text height="300">{post_data.contents}내용</Text>
           </Text>
         </Grid>
       </Grid>

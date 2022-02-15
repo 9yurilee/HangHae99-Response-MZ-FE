@@ -1,10 +1,17 @@
-import React from "react";
+import React, { uh } from "react";
 import Post from "../component/Post";
+import { actionCreators as postActions } from "../redux/modules/post";
+import { useSelector, useDispatch } from "react-redux";
 import { Button, Grid, Image, Text, Input } from "../element/index";
 import { useHistory } from "react-router-dom";
 
 const PostWrite = () => {
+  const dispatch = useDispatch();
   const history = useHistory();
+
+  React.useEffect = () => {
+    dispatch(postActions.addPostFB())
+  }
   return (
     <React.Fragment>
       작성페이지~
