@@ -9,6 +9,9 @@ import { Button, Grid, Input, Text } from "../element/index";
 import CommentList from '../component/CommentList';
 import CommentWrite from '../component/CommentWrite';
 import { actionCreators as postActions } from "../redux/modules/post";
+import CommentList from "../component/CommentList";
+import CommentWrite from "../component/CommentWrite";
+import styled from "styled-components";
 
 const Detail = (props) => {
   // const {history} = props;
@@ -50,6 +53,7 @@ const CommentBox = styled.div`
   padding: 25px;
   background-color: #59c1c2;
   border: 8px solid #1f969c;
+  width: auto; height: auto; box-sizing: border-box; padding: 25px; background-color: #59c1c2; border: 8px solid #1f969c;
 `;
 
 export default Detail;
