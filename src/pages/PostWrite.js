@@ -1,10 +1,13 @@
 import React from "react";
-import { actionCreators as postActions } from "../redux/modules/post";
 import { useSelector, useDispatch } from "react-redux";
+
 import { Button, Grid, Image, Text, Input } from "../element/index";
 import Upload from "../shared/Upload";
+
 import { history } from "../redux/configStore";
 import { actionCreators as imageActions } from "../redux/modules/image";
+import { actionCreators as postActions } from "../redux/modules/post";
+
 
 const PostWrite = (props) => {
   const dispatch = useDispatch();
@@ -12,11 +15,11 @@ const PostWrite = (props) => {
 
   const is_login = useSelector((state) => state.user.is_login);
   const preview = useSelector((state) => state.image.preview);
-  const title = useSelector((state) => state.post.title);
+  // const title = useSelector((state) => state.post.title);
   const user_id = useSelector((state) => state.user_id);
 
-  const post_id = props.match.params.id;
-  console.log(post_id)
+  // const post_id = props.match.params.id;
+  // console.log(post_id)
 
   // const post_list = useSelector((state) => state.post.list);
   //_post_id 어케 받아올지 생각
@@ -25,7 +28,7 @@ const PostWrite = (props) => {
   // const is_edit = _post_id ? true : false;
   // let _post = is_edit ? post_list.find((p) => p.id === _post_id) : null;
   // const [contents, setContents] = React.useState(_post ? _post.contents : '');
-
+  const [title, setTitle] = React.useState('');
   const [contents, setContents] = React.useState("");
   const [year, setYear] = React.useState("");
 
@@ -47,11 +50,22 @@ const PostWrite = (props) => {
   // const editPost = () => {
   //   dispatch(postActions.editPostFB(post_id, { contents: layout  }));
   // };
+  // React.useEffect(() => {
+  //   if (is_edit && !_post) {
+  //     console.log('포스트 정보가 없어요!');
+  //     history.goBack();
+
+  //     return;
+  //   }
+  //   if (is_edit) {
+  //     dispatch(imageActions.setPreview(_post.image_url));
+  //   }
+  // }, []);
+
 
   if (!is_login) {
     return (
-      //margin 왜 안먹냐 ?_?
-      <Grid margin="200" padding="16px" center>
+      <Grid margin="200px" padding="16px" center>
         <Text size="30px" bold>
           잠깐✋🏻
         </Text>

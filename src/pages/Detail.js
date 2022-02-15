@@ -12,6 +12,7 @@ import CommentWrite from "../component/CommentWrite";
 
 import { actionCreators as postActions } from "../redux/modules/post";
 import { history } from "../redux/configStore";
+import { api } from "../shared/api";
 
 const Detail = (props) => {
   const dispatch = useDispatch();
@@ -24,7 +25,8 @@ const Detail = (props) => {
   const post_data = post_list[post_idx];
   console.log(post_data);
 
-  const [post, setPost] = React.useState(post_data ? post_data : null);
+  const [post, setPost] = React.useState(post_data ? post_data : null)
+
 
   return (
     <>

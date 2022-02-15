@@ -1,16 +1,20 @@
+import { useSelector } from 'react-redux';
+
 import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
 import { getCookie, setCookie, deleteCookie } from "../../shared/Cookie";
-import { api, api_post } from "../../shared/api";
+import { api } from "../../shared/api";
 // import moment from 'moment';
 
 const SET_POST = "SET_POST";
 const GET_POST = "GET_POST";
 const ADD_POST = "ADD_POST";
+const DELETE_POST = "DELETE_POST";
 
 const setPost = createAction(SET_POST, (post_list) => ({ post_list }));
 const getPost = createAction(GET_POST, (post_list) => ({ post_list }));
 const addPost = createAction(ADD_POST, (post) => ({ post }));
+const deletePost = createAction(DELETE_POST, (post_id) => ({ post_id }))
 
 const initialState = {
   list: [],
@@ -31,7 +35,9 @@ console.log(typeof _image);
 
 const getPostFB = () => {
   return function (dispatch, getState, { history }) {
-    api_post
+    // const _user = getState.user.user
+    // console.log(_user)
+    api
       .get("/articles", {})
       .then(function (response) {
         console.log(response.data.articles);
@@ -56,6 +62,40 @@ const getPostFB = () => {
       });
   };
 };
+console.log('hi')
+
+const addPostFB = (contents='') => {
+  return function(dispatch, getState, { history }){
+    const _user = useSelector((state) => state.user.user)
+    console.log(_user)
+    console.log("안녕")
+    const user_info = {
+      user_id: _user.user_id
+    }
+    api
+    .post('/articles', {})
+    .then(function(response){
+      console.log(response)
+    })
+    .catch(function (error) {
+      window.alert("포스팅 중 에러가 발생했습니다")
+      console.log(error);
+    });
+  }
+}
+
+// const editPostFB = () => {
+//   return function(dispatch, getState, { history }){
+
+//   }
+// }
+
+const deletePostFB = (post_id) => {
+    api.delete(`articles/:post_id`, (req, res) => {
+    const _post_id = req.query.post_id
+    const user = api.articles.filter(data => data.post_id != _post_id );
+  })
+}
 
 // const addPostFB = (image, title, user_id, year, contents) => {
 //   return function (dispatch, getState, { history }) {
@@ -87,6 +127,10 @@ export default handleActions(
         draft.list.unshift(action.payload.post);
         console.log(action.payload.post);
       }),
+    [DELETE_POST]: (state, action) =>
+      produce(state, (draft) => {
+        draft.list = draft.list.filter((p) => p.id !== action.payload.post_id)
+      })
   },
   initialState
 );
@@ -96,7 +140,8 @@ const actionCreators = {
   getPost,
   addPost,
   getPostFB,
-  // addPostFB,
+  addPostFB,
+  deletePostFB
 };
 
 export { actionCreators };
