@@ -1,21 +1,64 @@
-import React, { uh } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Post from "../component/Post";
 import { actionCreators as postActions } from "../redux/modules/post";
 import { useSelector, useDispatch } from "react-redux";
 import { Button, Grid, Image, Text, Input } from "../element/index";
 import { useHistory } from "react-router-dom";
+import { history } from "../redux/configStore";
 
-const PostWrite = () => {
+const PostWrite = (props) => {
   const dispatch = useDispatch();
-  const history = useHistory();
+  const { history } = props;
 
-  React.useEffect = () => {
-    dispatch(postActions.addPostFB())
+  const is_login = useSelector((state) => state.user.is_login);
+  console.log(is_login)
+  // // const preview = useSelector((state) => state.image.preview);
+  const post_list = useSelector((state) => state.post.list);
+  console.log(post_list);
+
+  // const _post_id = props.match.params.post_id
+  // const is_edit = _post_id ? true : false;
+
+  // let _post = is_edit ? post_list.find((p) => p.id === _post_id) : null;
+  // const [contents, setContents] = React.useState(_post ? _post.contents : '');
+  const [contents, setContents] = React.useState("");
+  const changeContents = (e) => {
+    setContents(e.target.value);
+  };
+
+  const addPost = () => {
+    dispatch(postActions.addPostFB(contents))
+    history.push("/")
+  };
+
+  // const editPost = () => {
+  //   dispatch(postActions.editPostFB(post_id, { contents: layout  }));
+  // };
+
+  if (!is_login) {
+    return (
+      //margin 왜 안먹냐 ?_?
+      <Grid margin="200" padding="16px" center>
+        <Text size="30px" bold>
+          잠깐✋🏻
+        </Text>
+        <Text size="24px">로그인 후에만 글 작성이 가능합니다!</Text>
+        <Button
+          _onClick={() => {
+            history.replace("/login");
+          }}
+          text="로그인 하러가기"
+        ></Button>
+      </Grid>
+    );
   }
+
   return (
     <React.Fragment>
-      작성페이지~
-      <Grid margin="120px auto" width="700" height="500" >
+      <Text margin="85px 0px 0px 10px" size="36px" bold>게시물 작성
+          {/* {is_edit ? '게시글 수정' : '게시글 작성'} */}
+        </Text>
+      <Grid margin="90px auto" width="700" height="500">
         <Grid is_flex borderRadius="10">
           <Image
             width="350"
@@ -25,14 +68,16 @@ const PostWrite = () => {
             }
             margin="20px 5px"
           />
-          <Grid height="300" >
+          <Grid height="300">
+            <Input type="file" _onChange={changeContents} />
+            <Text text="타이틀"></Text> <Input type="text" _onChange={changeContents}/>
             <Text
               bold
               // margin="0px 0px 10px 0px"
               padding="0px 0px 10px"
               textAlign="left"
               bg="#59c1c2"
-              text="출생년도"
+              text="추억의 연도"
             />
             <Grid display="flex" alignItems="center">
               <input
@@ -55,7 +100,7 @@ const PostWrite = () => {
                 textAlign="left"
                 text="게시물 내용"
               />
-              <Input/>
+              <Input _onChange={changeContents}/>
             </Grid>
           </Grid>
         </Grid>
@@ -74,7 +119,7 @@ const PostWrite = () => {
             color="white"
             bg="#f47b6a"
             text="작성하기"
-            _onClick={() => history.push("/")}
+            _onClick={addPost}
           ></Button>
         </Grid>
       </Grid>
