@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Button, Grid, Image } from "../element/index";
+import { Button, Grid} from "../element/index";
 import { useSelector, useDispatch } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";
 import {history} from "../redux/configStore"
