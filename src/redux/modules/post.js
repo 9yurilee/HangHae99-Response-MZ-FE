@@ -17,9 +17,6 @@ const initialState = {
 };
 
 const initialPost = {
-  user_info: {
-    user_id: "initialPost의 user-id",
-  },
   title: "initialPost의 title",
   image_url: "http://www.ipon.co.kr/common/img/default_profile.png",
   contents: "기본 콘텐츠222",
@@ -56,8 +53,28 @@ const getPostFB = () => {
 
 const addPostFB = (image_url, title, user_id, year, contents) => {
   return function (dispatch, getState, { history }) {
+
+    const _user = getState().user.user;
+    console.log(_user)
+    const user_info = {
+      user_name: _user.user_name,
+      user_id: _user.uid,
+      user_profile: _user.user_profile,
+    };
+    
+    const _post = {
+      ...initialPost,
+      title,
+      image_url,
+      user_id,
+      year,
+      contents,
+    };
+
+    let post = { ..._post }
+
     api_post
-      .post("/api/articles", { 
+      .post("/api/articles", {
         image_url,
         title,
         user_id,
@@ -65,8 +82,9 @@ const addPostFB = (image_url, title, user_id, year, contents) => {
         contents, //서버는 content인데,,
       })
       .then(function (response) {
-        console.log(response)
-        addPost()
+        console.log(response.data);
+        addPost(post);
+        history.push("/");
       })
       .catch(function (error) {
         console.log(error);

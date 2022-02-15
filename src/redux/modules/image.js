@@ -1,9 +1,7 @@
 import { createAction, handleActions } from "redux-actions";
 import produce from "immer";
 
-// import { storage } from "../../shared/firebase";
-
-// actions
+// // actions
 const UPLOADING = "UPLOADING";
 const UPLOAD_IMAGE = "UPLOAD_IMAGE";
 const SET_PREVIEW = "SET_PREVIEW";
@@ -17,24 +15,22 @@ const setPreview = createAction(SET_PREVIEW, (preview) => ({ preview }));
 function uploadImageFB(image) {
   return function (dispatch, getState, {history}) {
     
-    dispatch(uploading(true));
+    dispatch(uploading(true));}};
     
-    // const _upload = storage.ref(`images/${image.name}`).put(image);
+//     //   업로드!
+//     _upload.then((snapshot) => {
+//       console.log(snapshot);
 
-    // //   업로드!
-    // _upload.then((snapshot) => {
-    //   console.log(snapshot);
-
-    //   // 업로드한 파일의 다운로드 경로를 가져오자!
-    //   snapshot.ref.getDownloadURL().then((url) => {
-    //     console.log(url);
-    //     dispatch(uploadImage(url));
-    //   });
-    // }).catch(err => {
-    //     dispatch(uploading(false));
-    // });
-  };
-}
+//       // 업로드한 파일의 다운로드 경로를 가져오자!
+//       snapshot.ref.getDownloadURL().then((url) => {
+//         console.log(url);
+//         dispatch(uploadImage(url));
+//       });
+//     }).catch(err => {
+//         dispatch(uploading(false));
+//     });
+//   };
+// }
 
 // initial state
 const initialState = {
@@ -59,10 +55,10 @@ export default handleActions(
 
     [SET_PREVIEW]: (state, action) =>
       produce(state, (draft) => {
+        console.log("preview 안녕~")
         draft.preview = action.payload.preview;
        }),
-  },
-  initialState
+  }, initialState
 );
 
 const actionCreators = {

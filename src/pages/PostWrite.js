@@ -1,36 +1,34 @@
-import React, { useEffect, useRef, useState } from "react";
-import Post from "../component/Post";
+import React from "react";
 import { actionCreators as postActions } from "../redux/modules/post";
 import { useSelector, useDispatch } from "react-redux";
 import { Button, Grid, Image, Text, Input } from "../element/index";
-import { useHistory } from "react-router-dom";
+import Upload from '../shared/Upload';
 import { history } from "../redux/configStore";
+import { actionCreators as imageActions } from '../redux/modules/image';
 
 const PostWrite = (props) => {
   const dispatch = useDispatch();
   const { history } = props;
 
   const is_login = useSelector((state) => state.user.is_login);
-  console.log(is_login)
-  // // const preview = useSelector((state) => state.image.preview);
+  const preview = useSelector((state) => state.image.preview);
   const post_list = useSelector((state) => state.post.list);
-  console.log(post_list);
 
+  //_post_id 어케 받아올지 생각
   // const _post_id = props.match.params.post_id
+  // console.log(props)
   // const is_edit = _post_id ? true : false;
-
   // let _post = is_edit ? post_list.find((p) => p.id === _post_id) : null;
   // const [contents, setContents] = React.useState(_post ? _post.contents : '');
   const [contents, setContents] = React.useState("");
+
   const changeContents = (e) => {
     setContents(e.target.value);
   };
 
   const addPost = () => {
     dispatch(postActions.addPostFB(contents))
-    history.push("/")
   };
-
   // const editPost = () => {
   //   dispatch(postActions.editPostFB(post_id, { contents: layout  }));
   // };
@@ -64,12 +62,14 @@ const PostWrite = (props) => {
             width="350"
             height="400"
             src={
-              "https://ilovecharacter.com/news/data/20210122/p179568629887999_597.jpg"
+              preview
+                ? preview
+                : 'https://cdn1.vectorstock.com/i/1000x1000/50/20/no-photo-or-blank-image-icon-loading-images-vector-37375020.jpg'
             }
             margin="20px 5px"
           />
           <Grid height="300">
-            <Input type="file" _onChange={changeContents} />
+            <Upload />
             <Text text="타이틀"></Text> <Input type="text" _onChange={changeContents}/>
             <Text
               bold
