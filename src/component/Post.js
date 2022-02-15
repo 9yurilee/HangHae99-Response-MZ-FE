@@ -1,11 +1,12 @@
 import React from "react";
 import { Grid, Image, Text } from "../element/index";
 import { useHistory } from "react-router-dom";
-import {history } from "react-router";
+import { useSelector, useDispatch } from "react-redux";
+import {history} from '../redux/configStore';
 
-//포스트 하나당 형태
 const Post = (props) => {
   const history = useHistory();
+
   return (
     <React.Fragment>
       <Grid margin="120px auto" _onClick={() => history.push(`/detail/${props.post_id}`)}>
