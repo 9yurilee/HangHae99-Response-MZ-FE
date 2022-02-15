@@ -20,29 +20,31 @@ const initialPost = {
   user_info: {
     user_id: "initialPost의 user-id",
   },
+  title: "initialPost의 title",
   image_url: "http://www.ipon.co.kr/common/img/default_profile.png",
   contents: "기본 콘텐츠222",
-  insert_dt: "2022-02-04 16:20:00",
+  year: "2022-02-15 10:00:00"
 };
 
 const getPostFB = () => {
   return function (dispatch, getState, { history }) {
-    api_post
-      .get("http://localhost:3001/articles", {})
+    api_post.get("/api/articles", {})
       .then(function (response) {
-        const postDB = response.data;
+        console.log(response.data.articles)
+        const postDB = response.data.articles;
         const post_list = [];
         postDB.forEach((p, i) => {
           let list = {
-            user_id: p.user_id, //user_id 못 읽어옴
-            post_id: p.post_id,
-            insert_dt: p.insert_dt,
-            image_url: p.image_url,
-            contents: p.contents,
+            user_id: p.user_id,
+            title: p.title,
+            post_id: p.id,
+            year: p.year,
+            image_url: p.image,
+            contents: p.content,
+            insesrt_dt: p.date,
           };
           post_list.push(list);
         });
-        console.log(post_list);
         dispatch(getPost(post_list));
       })
       .catch(function (error) {
@@ -55,7 +57,6 @@ export default handleActions(
   {
     [GET_POST]: (state, action) =>
       produce(state, (draft) => {
-        console.log("get_post 안녕");
         draft.list = action.payload.post_list;
       }),
     [ADD_POST]: (state, action) =>
