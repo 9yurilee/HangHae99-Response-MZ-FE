@@ -1,7 +1,7 @@
 import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
 import { getCookie, setCookie, deleteCookie } from "../../shared/Cookie";
-import { api_post } from "../../db/api";
+import { api, api_post } from "../../shared/api";
 // import moment from 'moment';
 
 const SET_POST = "SET_POST";
@@ -23,14 +23,15 @@ const initialPost = {
   title: "initialPost의 title",
   image_url: "http://www.ipon.co.kr/common/img/default_profile.png",
   contents: "기본 콘텐츠222",
-  year: "2022-02-15 10:00:00"
+  year: "2022-02-15 10:00:00",
 };
 
 const getPostFB = () => {
   return function (dispatch, getState, { history }) {
-    api_post.get("/api/articles", {})
+    api_post
+      .get("/api/articles", {})
       .then(function (response) {
-        console.log(response.data.articles)
+        console.log(response.data.articles);
         const postDB = response.data.articles;
         const post_list = [];
         postDB.forEach((p, i) => {
@@ -41,11 +42,25 @@ const getPostFB = () => {
             year: p.year,
             image_url: p.image,
             contents: p.content,
-            insesrt_dt: p.date,
+            insert_dt: p.date,
           };
           post_list.push(list);
         });
         dispatch(getPost(post_list));
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+};
+
+const addPostFB = () => {
+  return function (dispatch, getState, { history }) {
+    api_post
+      .post("/api/articles", {
+      })
+      .then(function (response) {
+        console.log(response);
       })
       .catch(function (error) {
         console.log(error);
@@ -72,6 +87,7 @@ const actionCreators = {
   getPost,
   addPost,
   getPostFB,
+  addPostFB,
 };
 
 export { actionCreators };
