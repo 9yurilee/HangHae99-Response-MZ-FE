@@ -1,9 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import { Button, Grid } from "../element/index";
+import { Button, Grid, Image } from "../element/index";
 import { useSelector, useDispatch } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";
 import {history} from "../redux/configStore"
+import logo from "../shared/img/logo_img.png";
 
 const Header = ()=> {
     const dispatch = useDispatch();
@@ -13,7 +14,9 @@ const Header = ()=> {
         return(
             <React.Fragment>
                 <Head>
-                    <h1 onClick={()=> {history.push("/");}}>logo</h1>
+                    <h1 onClick={()=> {history.push("/");}}>
+                        <img src={logo} alt="logo" />
+                    </h1>
                     <Grid is_flex>
                         <Button _onClick={()=> {dispatch(userActions.logOut({}));}} text="로그아웃" width="100px" padding="10px 0" font-size="15px"></Button>
                     </Grid>
@@ -24,7 +27,9 @@ const Header = ()=> {
     return(
         <React.Fragment>
             <Head>
-                <h1 onClick={()=> {history.push("/");}}>logo</h1>
+                <h1 onClick={()=> {history.push("/");}}>
+                    <img src={logo} alt="logo" />
+                </h1>
                 <Grid is_flex>
                     <Button _onClick={()=> {history.push("/login");}} text="로그인" width="100px" padding="10px 0" font-size="15px"></Button>
                     <Button _onClick={()=> {history.push("/register");}} text="회원가입" width="100px" padding="10px 0" font-size="15px" margin="0 0 0 10px"></Button>
@@ -37,7 +42,7 @@ const Header = ()=> {
 const Head = styled.div`
     background-color: #1f969c;
     font-family: 'DungGeunMo';
-    padding: 25px 20%;
+    padding: 20px 20%;
     display: flex;
     align-items: center;
     justify-content: space-between;
