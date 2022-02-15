@@ -17,7 +17,7 @@ const Login = ()=> {
           return;
         }
         dispatch(loginAction.loginDB(id, password));
-        history.push("/");
+        history.replace("/");
     };
 
     return(
@@ -28,7 +28,7 @@ const Login = ()=> {
                     <Input width="350px" margin="0 0 30px 0" placeholder="아이디를 입력해주세요." _onChange={(e) => {setId(e.target.value);}}/>
                     <Input width="350px" margin="0 0 30px 0" placeholder="비밀번호를 입력해주세요." type="password" _onChange={(e) => {setPwd(e.target.value);}}/>
                     <Grid is_flex padding="30px 0 0 0">
-                        <Button _onClick={login} text="로그인" size="18px" padding="15px 0" disabled={id === "" || password === "" ? true : false}></Button>
+                        <Button _onClick={login} text="로그인" size="18px" padding="15px 0"></Button>
                         <Button _onClick={()=> {history.push("/register");}} text="회원가입" size="18px" margin="0 0 0 25px" padding="15px 0"></Button>    
                     </Grid>
                 </Grid>
