@@ -1,10 +1,13 @@
 import React from "react";
 import Post from "../component/Post";
+import styled from "styled-components";
 import { useHistory } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
 import Image from "../element/Image";
 // import { history } from "../redux/configStore";
-import { Button, Grid, Input, Text, CommentsList } from "../element/index";
+import { Button, Grid, Input, Text } from "../element/index";
+import CommentList from '../component/CommentList';
+import CommentWrite from '../component/CommentWrite';
 import { actionCreators as postActions } from "../redux/modules/post";
 
 const Detail = (props) => {
@@ -36,7 +39,7 @@ const Detail = (props) => {
         </>
       )}
     </>
-    //       {/* <Post {...post} is_me={post.user_info.user_id === user_info?.uid} /> */}
+    // <Post {...post} is_me={post.user_info.user_id === user_info?.uid} />
   );
 };
 

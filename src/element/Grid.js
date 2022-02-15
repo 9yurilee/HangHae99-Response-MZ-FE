@@ -15,6 +15,7 @@ const Grid = (props) => {
     borderRadius,
     position,
     _onClick,
+    is_flex_center
   } = props;
 
   const styles = {
@@ -28,6 +29,7 @@ const Grid = (props) => {
     border: border,
     borderRadius,
     position,
+    is_flex_center
   };
   return (
     <div>
@@ -41,6 +43,7 @@ const Grid = (props) => {
 Grid.defaultProps = {
   children: null,
   is_flex: false,
+  is_flex_center: false,
   width: "auto",
   height: "auto",
   padding: false,
@@ -64,8 +67,9 @@ const GridBox = styled.div`
     props.is_flex
       ? `display: flex; align-items: center; justify-content: space-evenly;`
       : ""}
+  ${(props) => props.is_flex_center ? `display: flex; align-items: center; justify-content: center;` : ""}
   ${(props) => (props.center ? `text-align: center` : "")}
-  ${(props) => (props.border ? `border: ${props.border}` : "")}
+  ${(props) => (props.border ? `border-bottom: ${props.border}` : "")}
   border-radius: ${(props) => props.borderRadius};
   `;
 
