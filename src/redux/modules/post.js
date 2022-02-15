@@ -17,6 +17,10 @@ const initialState = {
 };
 
 const initialPost = {
+  user_info:{
+    user_id: "user_id"
+  },
+  post_id: "post_id",
   title: "initialPost의 title",
   image_url: "http://www.ipon.co.kr/common/img/default_profile.png",
   contents: "기본 콘텐츠222",
@@ -41,7 +45,7 @@ const getPostFB = () => {
             year: p.year,
             image_url: p.image,
             contents: p.content,
-            insert_dt: p.date,
+            date: p.date,
           };
           post_list.push(list);
         });
