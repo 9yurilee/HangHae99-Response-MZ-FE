@@ -9,16 +9,18 @@ import {history} from "../redux/configStore";
 import styled from "styled-components";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
-
+import {getCookie} from "./Cookie"
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as loginActions } from "../redux/modules/user";
 import axios from 'axios';
 
 function App() {
   const dispatch = useDispatch();
+  const is_login = getCookie("is_login")? true : false;
+  const user = useSelector((state) => state.user);
 
-  const is_login = useSelector((state) => state.user.is_login);
-  
+  console.log(user);
+
   const [data, setData] = useState(null);
   const onClick = () => {
     axios.get('http://localhost:3001/articles').then((response) =>{
@@ -28,7 +30,9 @@ function App() {
   }
   
     React.useEffect(() => {
-    dispatch(loginActions.loginCheckDB());
+      if(is_login){
+        dispatch(loginActions.loginCheckDB());
+      }
   }, []);
   
   return (
