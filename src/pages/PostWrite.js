@@ -12,8 +12,11 @@ const PostWrite = (props) => {
 
   const is_login = useSelector((state) => state.user.is_login);
   const preview = useSelector((state) => state.image.preview);
-  const post_list = useSelector((state) => state.post.list);
+  const title = useSelector((state) => state.post.title);
+  const user_id = useSelector((state) => state.user_id);
+  const year = useSelector((state) => state.year);
 
+  // const post_list = useSelector((state) => state.post.list);
   //_post_id 어케 받아올지 생각
   // const _post_id = props.match.params.post_id
   // console.log(props)
@@ -24,10 +27,11 @@ const PostWrite = (props) => {
 
   const changeContents = (e) => {
     setContents(e.target.value);
+    console.log(e.target.value);
   };
 
-  const addPost = () => {
-    dispatch(postActions.addPostFB(contents))
+  const addPost = (image, title, user_id, year, contents) => {
+    dispatch(postActions.addPostFB())
   };
   // const editPost = () => {
   //   dispatch(postActions.editPostFB(post_id, { contents: layout  }));

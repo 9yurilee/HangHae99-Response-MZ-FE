@@ -23,10 +23,12 @@ const initialPost = {
   year: "2022-02-15 10:00:00",
 };
 
+console.log(typeof _image);
+
 const getPostFB = () => {
   return function (dispatch, getState, { history }) {
     api_post
-      .get("/api/articles", {})
+      .get("/articles", {})
       .then(function (response) {
         console.log(response.data.articles);
         const postDB = response.data.articles;
@@ -51,46 +53,24 @@ const getPostFB = () => {
   };
 };
 
-const addPostFB = (image_url, title, user_id, year, contents) => {
-  return function (dispatch, getState, { history }) {
-
-    const _user = getState().user.user;
-    console.log(_user)
-    const user_info = {
-      user_name: _user.user_name,
-      user_id: _user.uid,
-      user_profile: _user.user_profile,
-    };
-    
-    const _post = {
-      ...initialPost,
-      title,
-      image_url,
-      user_id,
-      year,
-      contents,
-    };
-
-    let post = { ..._post }
-
-    api_post
-      .post("/api/articles", {
-        image_url,
-        title,
-        user_id,
-        year,
-        contents, //서버는 content인데,,
-      })
-      .then(function (response) {
-        console.log(response.data);
-        addPost(post);
-        history.push("/");
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  };
-};
+// const addPostFB = (image, title, user_id, year, contents) => {
+//   return function (dispatch, getState, { history }) {
+//     const post = 
+//     const id = post.length ? post[post.length - 1].id +1 : 1;
+//     console.log(id)
+//     const newPost = { user_id, title, content: contents, year, image: image_url}
+//      //{withCredentials: true}?
+//     .then(function (response) {
+//       const res = api_post.post("/articles", newPost)
+//       const all_posts = [...posts, res.data]
+//         // dispatch(addPost(post));
+//         // history.push("/");
+//       })
+//       .catch(function (error) {
+//         console.log(error);
+//       });
+//   };
+// };
 
 export default handleActions(
   {
@@ -112,7 +92,7 @@ const actionCreators = {
   getPost,
   addPost,
   getPostFB,
-  addPostFB,
+  // addPostFB,
 };
 
 export { actionCreators };

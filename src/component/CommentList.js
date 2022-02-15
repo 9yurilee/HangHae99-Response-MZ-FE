@@ -38,7 +38,6 @@ export default CommentList;
 
 
 const CommentItem = (props) => {
-
     const {user_id, post_id, contents, insert_dt} = props;
     return (
         <Grid is_flex_center border="2px solid #1f969c">

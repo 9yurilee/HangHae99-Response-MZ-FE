@@ -25,7 +25,10 @@ const ImgUpload = (props) => {
         window.alert("파일을 선택해주세요!");
         return;
     }
-    dispatch(imageActions.uploadImageFB(image[0]));
+    dispatch(imageActions.uploadImageFB(image[0]))
+    .then(function(response){
+      console.log(response);
+    })
   };
 
   return (
