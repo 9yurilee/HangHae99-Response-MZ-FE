@@ -29,20 +29,20 @@ const loginDB =
         password: password,
       })
       .then((res) => {
-        const accessToken = "Bearer " + res.data.token;
+        const accessToken = res.data.token;
         setCookie('is_login', `${accessToken}`);
         
         dispatch(
           setUser({
-            user_id: res.data.user_id,
+            user_id: res.data.user.user_id,
+            id: res.data.user.id,
           })
         );
         
-        history.push("/");
+        history.replace("/");
       })
       .catch((err) => {
-        window.alert("회원가입이 필요합니다!");
-        history.push("/register");
+        console.log(err);
       });
   };
 
@@ -55,51 +55,32 @@ const registerDB =
         password: password,
       })
       .then((res) => {
-        window.alert(res.data.msg);
+        window.alert(res.message);
         history.push("/login");
       })
       .catch((err) => {
-        window.alert("중복된 아이디입니다!");
-      });
-  };
-
-  const loginCheckDB =
-  () =>
-  async (dispatch, getState, { history }) => {
-    const token = getCookie("is_login");
-    await api_token
-      .get(`/users/me`)
-      .then((res) => {
-        dispatch(
-          setUser({
-            token: token,
-            user_id: res.data.user_id,
-          })
-        );
-        history.push("/");
-      })
-      .catch((err) => {
-        console.log(err.code, err.message);
+        console.log(err);
       });
   };
 
 // reducer
 export default handleActions({
     [SET_USER]: (state, action) => produce(state, (draft) => {
+        setCookie("is_login", "success");
         draft.user = action.payload.user;
         draft.is_login = true;
     }),
     [LOG_OUT]: (state, action) => produce(state, (draft) => {
         deleteCookie("is_login");
         draft.user = null;
-		    draft.is_login = false;
+		draft.is_login = false;
     }),
     [GET_USER]: (state, action) => produce(state, (draft) => {}),
 }, initialState);
 
 // action creator export
 const actionCreators = {
-  setUser, logOut, getUser, loginDB, registerDB, loginCheckDB
+  setUser, logOut, getUser, loginDB, registerDB
 };
 
 export {actionCreators};

@@ -19,11 +19,11 @@ const Post = (props) => {
           <Image
             width="350"
             height="300"
-            src={props.src}
+            src={props.image_url}
             margin="20px 5px"
           />
           <Text minWidth="300px" bg="#59c1c2" margin="0px 20px">
-            <Text>{props.user_info.user_id}</Text>
+            <Text>{props.user_id}</Text>
             <Text>{props.insert_dt}</Text>
             <Text height="300">{props.contents}</Text>
           </Text>
