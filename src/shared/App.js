@@ -9,40 +9,24 @@ import {history} from "../redux/configStore";
 import styled from "styled-components";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
-
-import { useDispatch, useSelector } from "react-redux";
-import { actionCreators as loginActions } from "../redux/modules/user";
+import { useSelector } from 'react-redux';
 import axios from 'axios';
 
 function App() {
-  const dispatch = useDispatch();
-
   const is_login = useSelector((state) => state.user.is_login);
-  
-  const [data, setData] = useState(null);
-  const onClick = () => {
-    axios.get('http://localhost:3001/articles').then((response) =>{
-      setData(response.data);
-      console.log(response.data);
-    })
-  }
-  
-    React.useEffect(() => {
-    dispatch(loginActions.loginCheckDB());
-  }, []);
   
   return (
     <div className="App">
       <ConnectedRouter history={history}>
         <Header></Header>
         <Route path="/" component={Main} exact></Route>
-        <Route path="/login" component={Login} exact></Route>
-        <Route path="/register" component={Register} exact></Route>
+        <Route path="/login" component={Login} ></Route>
+        <Route path="/register" component={Register}></Route>
         <Route path="/postwrite" component={PostWrite} exact></Route>
-        <Route path="/edit" component={Edit} exact></Route>
-        <Route path="/detail" component={Detail} exact></Route>
+        <Route path="/edit" component={Edit} ></Route>
+        <Route path="/detail/:post_id" component={Detail}></Route>
       </ConnectedRouter>
-      <Button text="test" onClick={onClick}></Button>
+      {/* <Button text="test" onClick={_onClick}></Button> */}
       {
         is_login === true ? <FixdBtn onClick={() => {history.push('/postwrite');}}><FontAwesomeIcon icon={faPenToSquare} className="btn_icon" /></FixdBtn> : null
       }
