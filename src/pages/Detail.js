@@ -4,8 +4,11 @@ import { useHistory } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
 import Image from "../element/Image";
 // import { history } from "../redux/configStore";
-import { Button, Grid, Input, Text, CommentsList } from "../element/index";
+import { Button, Grid, Input, Text, } from "../element/index";
 import { actionCreators as postActions } from "../redux/modules/post";
+import CommentList from "../component/CommentList";
+import CommentWrite from "../component/CommentWrite";
+import styled from "styled-components";
 
 const Detail = (props) => {
   // const {history} = props;
@@ -50,6 +53,10 @@ const Detail = (props) => {
           </Text>
         </Grid>
       </Grid>
+      <CommentBox>
+        <CommentList></CommentList>
+        <CommentWrite></CommentWrite>
+      </CommentBox>
     </React.Fragment>
     // <Grid width="700" margin="auto">
     //   {/* {post && ( */}
@@ -62,5 +69,9 @@ const Detail = (props) => {
     // </Grid>
   );
 };
+
+const CommentBox = styled.div`
+  width: auto; height: auto; box-sizing: border-box; padding: 25px; background-color: #59c1c2; border: 8px solid #1f969c;
+`;
 
 export default Detail;

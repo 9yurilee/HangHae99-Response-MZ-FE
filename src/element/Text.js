@@ -21,7 +21,7 @@ const Text = (props) => {
     left,
     right,
     paddingTop,minWidth,
-    is_Main
+    letter
   } = props;
 
   const styles = {
@@ -40,7 +40,7 @@ const Text = (props) => {
     position,
     left,
     right,
-    paddingTop,minWidth,   };
+    paddingTop,minWidth, letter  };
 
   return (
     <TextWrap {...styles} onClick={_onClick}>
@@ -65,6 +65,7 @@ Text.defaultProps = {
   position: false,
   paddingTop: false,
   minWidth: false,
+  letter: false,
 };
 
 const TextWrap = styled.div`
@@ -85,7 +86,8 @@ const TextWrap = styled.div`
   white-space: nowrap;
   word-break: break-all;`
       : ""}
-  font-family: '양진체'; 
+  font-family: '양진체';
+  ${(props) => (props.letter) ? `letter-spacing: 2px;` : ""};
 `;
 
 export default Text;

@@ -1,48 +1,41 @@
 import React from "react";
+import { Grid, Input, Button } from "../element";
 
-import { Grid, Input, Button } from "../elements";
-
-import { useDispatch } from "react-redux";
-import { actionCreators as commentActions } from "../redux/modules/comment";
+// import { actionCreators as commentActions } from "../redux/modules/comment";
+import { useDispatch} from "react-redux";
 
 const CommentWrite = (props) => {
   const dispatch = useDispatch();
+  const [comment_text, setCommentText] = React.useState();
 
-  const { post_id } = props;
+  // const {post_id} = props;
 
-  const [comment_text, setCommentText] = React.useState("");
+  const onChange = (e) => {
+    setCommentText(e.target.value);
+  };
 
   const write = () => {
-    if (comment_text === "") {
-      window.alert("댓글을 입력해주세요!");
-      return;
-    }
-    // 입력된 텍스트는 지우기!
+    // dispatch(commentActions.addCommentFB(post_id, comment_text));
     setCommentText("");
-
-    // 파이어스토어에 추가합니다.
-    dispatch(commentActions.addCommentFB(post_id, comment_text));
   };
 
   return (
     <React.Fragment>
-      <Grid padding="16px" is_flex>
+      <Grid padding="16px" is_flex_center>
         <Input
           placeholder="댓글 내용을 입력해주세요 :)"
+          _onChange={onChange}
           value={comment_text}
           onSubmit={write}
           is_submit
+          width="420px"
         />
-        <Button width="50px" margin="0px 2px 0px 2px" _onClick={write}>
+        <Button width="100px" margin="0px 2px 0px 2px" _onClick={write}>
           작성
         </Button>
       </Grid>
     </React.Fragment>
   );
-};
-
-CommentWrite.defaultProps = {
-  post_id: "",
 };
 
 export default CommentWrite;
