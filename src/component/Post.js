@@ -1,13 +1,14 @@
 import React from "react";
 import { Grid, Image, Text } from "../element/index";
 import { useHistory } from "react-router-dom";
+import {history } from "react-router";
 
 //포스트 하나당 형태
 const Post = (props) => {
   const history = useHistory();
   return (
     <React.Fragment>
-      <Grid margin="120px auto" _onClick={() => history.push("/detail")}>
+      <Grid margin="120px auto" _onClick={() => history.push(`/detail/${props.post_id}`)}>
         <Grid
           bg="#59c1c2"
           margin="15px auto"
