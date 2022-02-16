@@ -78,7 +78,7 @@ const GridBox = styled.div`
       ? `display: flex; align-items: center; justify-content: center;`
       : ""}
   ${(props) => (props.center ? `text-align: center` : "")}
-  ${(props) => (props.border ? `border-bottom: ${props.border}` : "")}
+  border-bottom: ${(props) => props.border};
   border-radius: ${(props) => props.borderRadius};
 `;
 

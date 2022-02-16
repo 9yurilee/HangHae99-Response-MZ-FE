@@ -23,7 +23,7 @@ const CommentList = (props) => {
 
   return (
     <React.Fragment>
-      <Grid padding="16px">
+      <Grid padding="15px" border="2px solid #1f969c">
         <CommentItem></CommentItem>
       </Grid>
     </React.Fragment>
@@ -40,7 +40,7 @@ export default CommentList;
 const CommentItem = (props) => {
     const {user_id, post_id, contents, insert_dt} = props;
     return (
-        <Grid is_flex_center border="2px solid #1f969c">
+        <Grid is_flex_center>
             <Grid width="auto">
                 <Text letter bold size="18px">익명</Text>
             </Grid>
