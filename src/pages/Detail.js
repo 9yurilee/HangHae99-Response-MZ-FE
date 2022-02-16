@@ -10,6 +10,8 @@ import Post from "../component/Post";
 import CommentList from "../component/CommentList";
 import CommentWrite from "../component/CommentWrite";
 
+import axios from "axios";
+
 import { actionCreators as postActions } from "../redux/modules/post";
 import { history } from "../redux/configStore";
 import { api } from "../shared/api";
@@ -27,6 +29,12 @@ const Detail = (props) => {
 
   const [post, setPost] = React.useState(post_data ? post_data : null)
 
+  const onDelete = async function() {
+    if(window.confirm("delete?")){
+      dispatch(postActions.deletePostFB(post_data.post_id))
+      console.log("삭제")
+    }
+  }
 
   return (
     <>
@@ -45,8 +53,8 @@ const Detail = (props) => {
               width="auto"
               padding="4px"
               margin="4px"
-              _onClick={() => {
-                history.push(`/write/${post_data.post_id}`);
+              _onclick={() => {
+                history.push(`/postwrite/${post_data.post_id}`);
               }}
             />
             <Button
@@ -54,7 +62,7 @@ const Detail = (props) => {
               width="auto"
               padding="4px"
               margin="4px"
-              // _onClick={onDelete}
+              _onclick={onDelete}
             />
           </Grid>
           {/* {props.is_me && (
@@ -64,7 +72,7 @@ const Detail = (props) => {
                   width="auto"
                   padding="4px"
                   margin="4px"
-                  _onClick={() => {
+                  _onclick={() => {
                     history.push(`/write/${props.id}`);
                   }}
                 />
@@ -73,7 +81,7 @@ const Detail = (props) => {
                   width="auto"
                   padding="4px"
                   margin="4px"
-                  // _onClick={onDelete}
+                  // _onclick={onDelete}
                 />
               </Grid>
             )} */}

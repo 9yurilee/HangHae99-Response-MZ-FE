@@ -4,7 +4,7 @@ import styled from "styled-components";
 const Button = (props) => {
   const {
     text,
-    _onClick,
+    _onclick,
     is_float,
     children,
     margin,
@@ -27,7 +27,7 @@ const Button = (props) => {
   };
 
   return (
-    <ElButton {...styles} onClick={_onClick}>
+    <ElButton {...styles} onClick={_onclick}>
       {text ? text : children}
     </ElButton>
   );
@@ -36,7 +36,7 @@ const Button = (props) => {
 Button.defaultProps = {
   text: false,
   children: null,
-  _onClick: () => {},
+  _onclick: () => {},
   is_float: false,
   margin: false,
   width: "100%",

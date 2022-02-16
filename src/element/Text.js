@@ -8,7 +8,7 @@ const Text = (props) => {
     color,
     size,
     children,
-    _onClick,
+    _onclick,
     margin,
     height,
     text,
@@ -43,7 +43,7 @@ const Text = (props) => {
     paddingTop,minWidth, letter  };
 
   return (
-    <TextWrap {...styles} onClick={_onClick}>
+    <TextWrap {...styles} onClick={_onclick}>
       {text ? text : children}
     </TextWrap>
   );

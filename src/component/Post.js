@@ -11,7 +11,7 @@ const Post = (props) => {
     <React.Fragment>
       <Grid
         margin="120px auto"
-        _onClick={() => history.push(`/detail/${props.post_id}`)}
+        _onclick={() => history.push(`/detail/${props.post_id}`)}
       >
         <Grid
           bg="#59c1c2"
@@ -23,15 +23,15 @@ const Post = (props) => {
           <Image
             width="350"
             height="300"
-            src={props.image_url}
+            src={props.image}
             margin="20px 5px"
           />
           <Text minWidth="300px" bg="#59c1c2" margin="0px 20px">
             <Grid margin="0px 0px 25px 0px" is_flex_between>
               <Text >{props.user_id}</Text>
-              <Text size >{props.date}</Text>
+              <Text >{props.date}</Text>
             </Grid>
-            <Text height="300">{props.contents}</Text>
+            <Text height="300">{props.content}</Text>
           </Text>
         </Grid>
       </Grid>
@@ -44,8 +44,8 @@ Post.defaultProps = {
   user_info: {
     user_id: "user_id",
   },
-  image_url: "http://www.ipon.co.kr/common/img/default_profile.png",
-  contents: "기본 콘텐츠222",
+  image: "http://www.ipon.co.kr/common/img/default_profile.png",
+  content: "기본 콘텐츠222",
   insert_dt: "2022-02-04 16:20:00",
   // comment_cnt: '0',
 };
