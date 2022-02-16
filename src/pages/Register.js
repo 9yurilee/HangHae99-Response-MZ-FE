@@ -46,7 +46,7 @@ const Register = ()=> {
                     <Input width="350px" margin="0 0 30px 0" placeholder="비밀번호를 입력해주세요." type="password" _onChange={(e) => {setPwd(e.target.value);}}/>
                     <Input width="350px" margin="0 0 30px 0" placeholder="비밀번호를 다시 입력해주세요." type="password" _onChange={(e) => {setPwdCheck(e.target.value);}}/>
                     <Grid is_flex padding="30px 0 0 0">
-                        <Button _onClick={signUp} text="회원가입" size="18px" padding="15px 0"></Button>
+                        <Button _onclick={signUp} text="회원가입" size="18px" padding="15px 0"></Button>
                     </Grid>
                 </Grid>
             </RegisterContent>

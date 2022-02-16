@@ -19,3 +19,12 @@ export const api_token = axios.create({
     authorization: `${accessToken}`,
   },
 });
+
+export const api_post = axios.create({
+  baseURL: "http://54.180.137.157",
+  headers: {
+    "content-type": "application/json;charset=UTF-8",
+    accept: "application/json,",
+    authorization: `${accessToken}`,
+  },
+});

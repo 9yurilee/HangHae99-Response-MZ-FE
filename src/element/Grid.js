@@ -14,7 +14,7 @@ const Grid = (props) => {
     center,
     borderRadius,
     position,
-    _onClick,
+    _onclick,
     is_flex_center,
     is_flex_between,
   } = props;
@@ -35,7 +35,7 @@ const Grid = (props) => {
   };
   return (
     <div>
-      <GridBox onClick={_onClick} {...styles}>
+      <GridBox onClick={_onclick} {...styles}>
         {children}
       </GridBox>
     </div>
@@ -55,7 +55,7 @@ Grid.defaultProps = {
   borderRadius: false,
   position: false,
 
-  _onClick: () => {},
+  _onclick: () => {},
 };
 
 const GridBox = styled.div`

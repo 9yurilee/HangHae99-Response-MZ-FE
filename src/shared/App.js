@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import Button from '../element/Button'
 import { Route } from 'react-router';
-import { Main, Login, Register, Detail, Edit, PostWrite} from '../pages/index';
+import { Main, Login, Register, Detail,PostWrite} from '../pages/index';
 import Header from '../component/Header';
 import './App.css';
 import {ConnectedRouter} from "connected-react-router";
@@ -34,10 +34,10 @@ function App() {
         <Route path="/login" component={Login} ></Route>
         <Route path="/register" component={Register}></Route>
         <Route path="/postwrite" component={PostWrite} exact></Route>
-        <Route path="/edit" component={Edit} ></Route>
+        <Route path="/postwrite/:post_id" component={PostWrite} ></Route>
         <Route path="/detail/:post_id" component={Detail}></Route>
       </ConnectedRouter>
-      {/* <Button text="test" onClick={_onClick}></Button> */}
+      {/* <Button text="test" onClick={_onclick}></Button> */}
       {
         is_login === true ? <FixdBtn onClick={() => {history.push('/postwrite');}}><FontAwesomeIcon icon={faPenToSquare} className="btn_icon" /></FixdBtn> : null
       }
