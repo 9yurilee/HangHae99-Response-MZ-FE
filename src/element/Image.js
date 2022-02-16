@@ -2,13 +2,14 @@ import React from "react";
 import styled from "styled-components";
 
 const Image = (props) => {
-  const { src, width, height, margin} = props;
+  const { src, width, height, margin, _onChange} = props;
 
   const styles = {
     src,
     width,
     height,
-    margin
+    margin,
+    _onChange
   };
 
   return (

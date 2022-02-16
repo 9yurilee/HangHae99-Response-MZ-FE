@@ -15,7 +15,7 @@ const Header = ()=> {
                 <Head>
                     <h1 onClick={()=> {history.push("/");}}>logo</h1>
                     <Grid is_flex>
-                        <Button _onClick={()=> {dispatch(userActions.logOut({}));}} text="로그아웃" width="100px" padding="10px 0" font-size="15px"></Button>
+                        <Button _onclick={()=> {dispatch(userActions.logOut({}));}} text="로그아웃" width="100px" padding="10px 0" font-size="15px"></Button>
                     </Grid>
                 </Head>
             </React.Fragment>  
@@ -26,8 +26,8 @@ const Header = ()=> {
             <Head>
                 <h1 onClick={()=> {history.push("/");}}>logo</h1>
                 <Grid is_flex>
-                    <Button _onClick={()=> {history.push("/login");}} text="로그인" width="100px" padding="10px 0" font-size="15px"></Button>
-                    <Button _onClick={()=> {history.push("/register");}} text="회원가입" width="100px" padding="10px 0" font-size="15px" margin="0 0 0 10px"></Button>
+                    <Button _onclick={()=> {history.push("/login");}} text="로그인" width="100px" padding="10px 0" font-size="15px"></Button>
+                    <Button _onclick={()=> {history.push("/register");}} text="회원가입" width="100px" padding="10px 0" font-size="15px" margin="0 0 0 10px"></Button>
                 </Grid>
             </Head>
         </React.Fragment>       

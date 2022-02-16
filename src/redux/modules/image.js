@@ -1,5 +1,6 @@
 import { createAction, handleActions } from "redux-actions";
 import produce from "immer";
+import {api} from '../../shared/api';
 
 // // actions
 const UPLOADING = "UPLOADING";    
@@ -13,13 +14,15 @@ const setPreview = createAction(SET_PREVIEW, (preview) => ({ preview }));
 function uploadImageFB(image) {
   return function (dispatch, getState, {history}) {
     dispatch(uploading(true))
+    .then(function(res){
+      console.log(res)
+    })
   }
 }
-    
 
 // initial state
 const initialState = {
-  image_url: "",
+  image: "",
   uploading: false,
   preview: null,
 };
