@@ -1,13 +1,8 @@
-import React, {useRef} from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { Button, Grid, Image, Text, Input } from "../element/index";
-import Upload from "../shared/Upload";
-import { api, api_post } from "../shared/api";
-import axios from "axios";
-
-import { history } from "../redux/configStore";
-import { actionCreators as imageActions } from "../redux/modules/image";
+import { api_post } from "../shared/api";
 import { actionCreators as postActions } from "../redux/modules/post";
 
 const PostWrite = (props) => {
@@ -82,10 +77,6 @@ const PostWrite = (props) => {
     console.log("edit dispatch 완료")
 
   };
-  // // 새로고침 시 데이터 유지
-  // React.useEffect(() => {
-  //   dispatch(postActions.getOnePostAPI(_post_id));
-  // }, []);
 
   if (!is_login) {
     return (
@@ -109,7 +100,7 @@ const PostWrite = (props) => {
       <Text margin="100px" size="36px" bold>
         {is_edit ? '게시글 수정' : '게시글 작성'}
       </Text>
-      <Grid margin="100px auto" width="700" height="500">
+      <Grid padding="100px auto" width="700" height="500">
         <Grid is_flex borderRadius="10">
           <Image
             width="350"
@@ -122,7 +113,6 @@ const PostWrite = (props) => {
             margin="20px 5px"
           />
           <Grid height="300">
-            {/* <Upload /> */}
             <Input type="file" _onChange={saveFileImage}/>
             <Text text="타이틀"></Text>{" "}
             <Input type="text" _onChange={changeTitle} />
