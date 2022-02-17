@@ -31,19 +31,13 @@ const PostWrite = (props) => {
   const is_login = useSelector((state) => state.user.is_login);
   // const preview = useSelector((state) => state.image.preview);
 
-
-
   const img_url = useSelector((state) => state.post.img);
 
   const [fileImage, setFileImage] = React.useState(
-    post.imgurl !== '' && is_edit
-      ? post.imgurl
+    post.img_url !== '' && is_edit
+      ? post.img_url
       : 'https://w7.pngwing.com/pngs/767/518/png-transparent-color-vantablack-light-graphy-white-paper-blue-white-text-thumbnail.png'
   );
-
-  const addPost = () => {
-    dispatch(postActions.addPostFB(img_url, title, year, content));
-  };
 
   const saveFileImage = (e) => {
     const img = e.target.files[0];
@@ -53,6 +47,7 @@ const PostWrite = (props) => {
     console.log(formData); // FormData {}
     for (const keyValue of formData) console.log(keyValue);
     dispatch(postActions.imageAPI(formData));
+
     setFileImage(URL.createObjectURL(e.target.files[0]));
   };
 
@@ -61,8 +56,6 @@ const PostWrite = (props) => {
       ).then(function (res) {
       setFileImage(res.data.post.img_url);
     })}, []);
-
-
 
   const changeContent = (e) => {
     setContent(e.target.value);
@@ -81,13 +74,12 @@ const PostWrite = (props) => {
     }
   };
 
-  // const addPost = () => {
-  //   const image = 'https://t1.daumcdn.net/cfile/tistory/99683F3359EED71619'
-  //   dispatch(postActions.addPostFB(preview,title, year, content));
-  //   // console.log(preview)
-  //   console.log(image, title, year, content)
-  //   console.log("add post 완료?!")
-  // }
+  const addPost = () => {
+    dispatch(postActions.addPostFB(title, year, content));
+    // console.log(preview)
+    console.log(title, year, content)
+    console.log("add post 완료?!")
+  }
 
   const editPost = () => {
     dispatch(postActions.editPostFB(post_id, img_url, title, year, content));

@@ -26,7 +26,7 @@ const getImageUrl = createAction(IMAGE_URL, (img_url) => ({ img_url }));
 const initialState = {
   list: [],
   post: [],
-  img: "http://www.ipon.co.kr/common/img/default_profile.png",
+  img: "",
 };
 
 const initialPost = {
@@ -68,23 +68,17 @@ const getPostFB = () => {
   };
 };
 
-const addPostFB = (img_url = "", title, year, content) => {
+const addPostFB = (title, year, content) => {
   return function (dispatch, getState, { history }) {
     const accessToken = document.cookie.split("=")[1];
-
-    const formData = new FormData();
-    formData.append("image", img_url);
-    formData.append("title", title);
-    formData.append("year", year);
-    formData.append("content", content);
-
-    console.log(formData);
-    axios
-      .post("/articles", formData, {
+    api.post("/articles", {
+      title, year: parseInt(year), content
+    }, {
         headers: {
           Authorization: `${accessToken}`,
         },
       })
+      console.log(title, year, content)
       .then(function (response) {
         console.log(response);
       })
@@ -136,7 +130,7 @@ const deletePostFB = (post_id = null) => {
 const imageAPI = (file) => {
   for (const keyValue of file) console.log(keyValue);
   return async function (dispatch, useState, { history }) {
-    api_post.post("/articles", file).then(function (res) {
+    api_post.post("/articles/imageUpload", file).then(function (res) {
       console.log(res.data.img_url);
       dispatch(getImageUrl(res.data.img_url));
     });
@@ -162,7 +156,7 @@ export default handleActions(
       }),
     [IMAGE_URL]: (state, action) =>
       produce(state, (draft) => {
-        draft.img = action.payload.img_url;
+        draft.img_url = action.payload.img_url;
       }),
   },
   initialState

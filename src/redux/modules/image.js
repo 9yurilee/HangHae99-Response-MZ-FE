@@ -1,6 +1,6 @@
 import { createAction, handleActions } from "redux-actions";
 import produce from "immer";
-import { apis, api_post } from "../../shared/api";
+import { api, apis, api_post } from "../../shared/api";
 
 const UPLOADING = "UPLOADING";
 const UPLOAD_IMAGE = "UPLOAD_IMAGE";
@@ -20,7 +20,7 @@ const uploadImageDB = (formData) => {
   return function (dispatch, getState, { history }) {
     const accessToken = document.cookie.split("=")[1];
 
-    api_post.post('/articles', formData)
+    apis.imageUpload
       .then((res) => {
         console.log("하이");
         window.alert("😆 이미지 업로드 성공! 😆");
