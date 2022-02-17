@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { Text, Grid } from './index';
 
 const Input = (props) => {
-  const {label, placeholder, _onChange, type, multiLine, value, is_submit, onSubmit, radio, paddingTop, width, margin} = props;
+  const {is_preview, label, placeholder, _onChange, type, multiLine, value, is_submit, onSubmit, radio, paddingTop, width, margin} = props;
   
   const styles = {
     paddingTop, width, margin
@@ -57,6 +57,7 @@ Input.defaultProps = {
   _onChange: () => {},
   width: "auto",
   margin: "0",
+  is_preview: false,
 };
 
 const ElTextarea = styled.textarea`

@@ -44,8 +44,6 @@ const Detail = (props) => {
             상세페이지
           </Text>
           <Post {...post} is_me={post_data.user_id === post_data?.id} />
-          {/*  is_me={post.user_info.user_id === user_info?.uid} */}
-          {/*  is_me={post_data.user_info.user_id === user_info?.uid} */}
 
           <Grid is_flex_center>
             <Button
@@ -65,7 +63,7 @@ const Detail = (props) => {
               _onclick={onDelete}
             />
           </Grid>
-          {/* {props.is_me && (
+          {props.is_me && (
               <Grid>
                 <Button
                   text="수정"
@@ -84,7 +82,7 @@ const Detail = (props) => {
                   // _onclick={onDelete}
                 />
               </Grid>
-            )} */}
+            )}
           <CommentBox>
             <CommentList article_id={id}></CommentList>
             <CommentWrite article_id={id}></CommentWrite>
