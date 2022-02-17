@@ -58,76 +58,14 @@ const PostWrite = (props) => {
     }
   };
 
-  // const addPost_ = () => {
-  // let form = new FormData();
-
-  // form.append("title", title);
-  // form.append("year", parseInt(year));
-  // form.append("content", content);
-
-  // api_post
-  //   .post("/articles", form)
-  //   .then((res) => {
-  //     console.log("존나 힘드네");
-  //   })
-  //   .catch((error) => {
-  //     console.log(`Error: ${error.message}`);
-  //   });
-  // let _form = new FormData();
-
-  // const config = {
-  //   header: {
-  //     "Content-Type": "multipart/form-data",
-  //   },
-  // };
-  // console.log("안되니ㅠ");
-
-  // api_post.post("/articles", form, config)
-  //   .then((response) => {
-  //     console.log("떠라");
-  //     window.alert("야호");
-  //   })
-  // .catch((error) => {
-  //   console.log(`Error: ${error.message}`);
-  // });
-  // };
-
-  // const addPost_ = () => {
-  //   console.log("111");
-  //   let form = new FormData();
-
-  //   form.append("title", title);
-  //   form.append("year", parseInt(year));
-  //   form.append("content", content);
-  //   form.append("image", preview);
-
-  //   console.log("2222");
-  //   const accessToken = document.cookie.split("=")[1];
-
-  //   api_post
-  //     .post("http://54.180.137.157/api/articles", form,{
-  //       headers: {
-  //         authorization: `${accessToken}`
-  //       }
-  //     })
-  //     .then((res) => {
-  //       console.log("333");
-  //     })
-  //     .catch((err) => {
-  //       window.alert(err);
-  //       // history.push("/register");
-  //     });
-  // };
-
-
   const addPost = () => {
     dispatch(postActions.addPostFB(preview, title, year, content));
     console.log(preview, title, year, content)
     console.log("add post 완료?!")
   }
 
-  const imgLoad = () => {
-    dispatch(imageActions.setImage(image)))
+  const imgLoad = (image) => {
+    dispatch(imageActions.setImage(image))
   }
 
   if (!is_login) {
@@ -164,7 +102,6 @@ const PostWrite = (props) => {
                 : "https://cdn1.vectorstock.com/i/1000x1000/50/20/no-photo-or-blank-image-icon-loading-images-vector-37375020.jpg"
             }
             margin="20px 5px"
-            _onChange={}
           />
           <Grid height="300">
             <Upload />
