@@ -22,12 +22,12 @@ export const api_token = axios.create({
 
 export const api_post = axios.create({
   baseURL: "http://54.180.137.157/api",
-  headers: {
-    "content-type": "application/json;charset=UTF-8",
-    accept: "application/json",
-    authorization: `${accessToken}`,
+  // headers: {
+  //   "content-type": "application/json;charset=UTF-8",
+  //   accept: "application/json",
+  //   authorization: `${accessToken}`,}
   },
-});
+);
 
 // 로컬인 경우
 // api_post.defaults.headers.common[

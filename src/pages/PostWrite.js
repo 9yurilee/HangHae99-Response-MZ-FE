@@ -16,6 +16,8 @@ const PostWrite = (props) => {
   const user_id = useSelector((state) => state.user_id);
   const post_id = props.match.params.id;
 
+  const post = useSelector((store) => store.post.post);
+
   const post_list = useSelector((state) => state.post.list);
 
   const _post_id = props.match.params.post_id;
@@ -31,6 +33,12 @@ const PostWrite = (props) => {
 
 
   const [item_url, setItem_url] = React.useState("");
+
+  const [fileImage, setFileImage] = React.useState(
+    post.image !== '' && is_edit
+      ? post.image
+      : 'https://w7.pngwing.com/pngs/767/518/png-transparent-color-vantablack-light-graphy-white-paper-blue-white-text-thumbnail.png'
+  );
 
 
   const changeImg = (e) => {
@@ -61,9 +69,15 @@ const PostWrite = (props) => {
     console.log("add post 완료?!")
   }
 
-  const imgLoad = (image) => {
-    dispatch(imageActions.setImage(image))
-  }
+  const editPost = () => {
+    dispatch(postActions.editPostFB(post_id, preview, title, year, content));
+    console.log("edit dispatch 완료")
+
+  };
+  // // 새로고침 시 데이터 유지
+  // React.useEffect(() => {
+  //   dispatch(postActions.getOnePostAPI(_post_id));
+  // }, []);
 
   if (!is_login) {
     return (
@@ -161,22 +175,22 @@ const PostWrite = (props) => {
           ></Button>
           <Grid padding="25px">
             {is_edit ? (
-              <Button text="게시글 수정"             
+              <Button
+              text="수정완료"             
               width="120px"
               height="50px"
               color="white"
               bg="#f47b6a"
-              text="작성하기"
               // _onChange={onChange}
-              // _onclick={editPost}
+              _onclick={editPost}
               />
             ) : (
-              <Button text="게시글 작성"             
+              <Button
+              text="게시글 작성"             
               width="120px"
               height="50px"
               color="white"
               bg="#f47b6a"
-              text="작성하기"
               // _onChange={onChange}
               _onclick={addPost}/>
             )}

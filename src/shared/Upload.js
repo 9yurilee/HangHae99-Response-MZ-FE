@@ -13,19 +13,19 @@ const Upload = (props) => {
     const img = e.target.files[0]
     const formData = new FormData();
     formData.append('image', img);
-    console.log(formData)
+
     dispatch(imageActions.uploadImageDB(formData));
-    for (const keyValue in formData)
-    console.log(keyValue)
-    console.log(img)
+    for (const keyValue in formData) console.log(keyValue)
 
     const reader = new FileReader();
     const file = fileInput.current.files[0]
 
     reader.readAsDataURL(file)
+    console.log(file)
 
     reader.onloadend = () => {
       dispatch(imageActions.setPreview(reader.result))
+      console.log(reader.result)
     }
   }
 

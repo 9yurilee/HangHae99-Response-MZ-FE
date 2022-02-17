@@ -22,6 +22,8 @@ const deletePost = createAction(DELETE_POST, (post_id) => ({ post_id }));
 
 const initialState = {
   list: [],
+  post: [],
+  img: "http://www.ipon.co.kr/common/img/default_profile.png",
 };
 
 const initialPost = {
@@ -64,18 +66,25 @@ const getPostFB = () => {
   };
 };
 
-const addPostFB = ( title, year, content) => {
+const addPostFB = ( image, title, year, content) => {
   return function (dispatch, getState, { history }) {
-    // let post = { ..._post };
+    const accessToken = document.cookie.split("=")[1];
 
     const formData = new FormData();
-    // formData.append("image", image);
-    formData.append("title", title);
+    formData.append("image", 'image');
+    formData.append("title", 'title');
     formData.append("year", year);
     formData.append("content", content);
 
+    console.log(formData)
     axios
-      .post('/articles', formData)
+      .post('/articles', formData, {
+        headers: { 
+          // "content-type": "multipart/form-data",
+          Authorization: `Bearer ${accessToken}`
+        },
+      }
+      )
       .then(function (response) {
         console.log(response);
       })
@@ -88,6 +97,24 @@ const addPostFB = ( title, year, content) => {
   };
 };
 
+const editPostFB = (post_id, preview, title, year, content) => {
+  return async function (dispatch, useState, { history }) {
+    const accessToken = document.cookie.split("=")[1];
+
+    api_post
+      .post(`/articles/${post_id}`,
+        { post_id, preview, title, year, content },
+        {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        }
+      )
+      console.log("수정중")
+      .then(function (res) {
+        console.log("수정완료!")
+        // history.replace('/');
+      });
+  };
+};
 
 
 const deletePostFB = (post_id = null) => {
@@ -136,6 +163,7 @@ const actionCreators = {
   addPost,
   getPostFB,
   addPostFB,
+  editPostFB,
   deletePostFB,
 };
 
