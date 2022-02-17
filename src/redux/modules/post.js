@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
 import { getCookie, setCookie, deleteCookie } from "../../shared/Cookie";
-import { api, api_post } from "../../shared/api";
+import { api, apis, api_post } from "../../shared/api";
 import axios from "axios";
 // import moment from 'moment';
 
@@ -26,7 +26,7 @@ const getImageUrl = createAction(IMAGE_URL, (img_url) => ({ img_url }));
 const initialState = {
   list: [],
   post: [],
-  img: "http://www.ipon.co.kr/common/img/default_profile.png",
+  img_url: "",
 };
 
 const initialPost = {
@@ -68,23 +68,13 @@ const getPostFB = () => {
   };
 };
 
-const addPostFB = (img_url = "", title, year, content) => {
+const addPostFB = ( img_url, title, year, content) => {
   return function (dispatch, getState, { history }) {
     const accessToken = document.cookie.split("=")[1];
-
-    const formData = new FormData();
-    formData.append("image", img_url);
-    formData.append("title", title);
-    formData.append("year", year);
-    formData.append("content", content);
-
-    console.log(formData);
-    axios
-      .post("/articles", formData, {
-        headers: {
-          Authorization: `${accessToken}`,
-        },
-      })
+    api.post("/articles", {
+     image: img_url, title, year: parseInt(year), content
+    })
+      console.log(img_url, title, year, content)
       .then(function (response) {
         console.log(response);
       })
@@ -97,13 +87,13 @@ const addPostFB = (img_url = "", title, year, content) => {
   };
 };
 
-const editPostFB = (post_id, preview, title, year, content) => {
+const editPostFB = (post_id, img_url, title, year, content) => {
   return async function (dispatch, useState, { history }) {
     const accessToken = document.cookie.split("=")[1];
 
     api_post.post(
       `/articles/${post_id}`,
-      { post_id, preview, title, year, content },
+      { post_id, img_url, title, year, content },
       {
         headers: { Authorization: `Bearer ${accessToken}` },
       }
@@ -133,15 +123,16 @@ const deletePostFB = (post_id = null) => {
   };
 };
 
-const imageAPI = (file) => {
-  for (const keyValue of file) console.log(keyValue);
+const imageAPI = (image) => {
+  for (const keyValue of image) console.log(keyValue);
   return async function (dispatch, useState, { history }) {
-    api_post.post("/articles", file).then(function (res) {
-      console.log(res.data.img_url);
-      dispatch(getImageUrl(res.data.img_url));
+    apis.image(image).then(function (res) {
+      console.log(res.data.image);
+      dispatch(getImageUrl(res.data.image));
     });
   };
 };
+
 
 export default handleActions(
   {
@@ -162,7 +153,7 @@ export default handleActions(
       }),
     [IMAGE_URL]: (state, action) =>
       produce(state, (draft) => {
-        draft.img = action.payload.img_url;
+        draft.img_url = action.payload.img_url;
       }),
   },
   initialState

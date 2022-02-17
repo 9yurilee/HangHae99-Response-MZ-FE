@@ -16,7 +16,7 @@ const PostWrite = (props) => {
   const user_id = useSelector((state) => state.user_id);
   const post_id = props.match.params.id;
 
-  const post = useSelector((store) => store.post.post);
+  const post = useSelector((state) => state.post.post);
 
   const post_list = useSelector((state) => state.post.list);
 
@@ -31,19 +31,15 @@ const PostWrite = (props) => {
   const is_login = useSelector((state) => state.user.is_login);
   // const preview = useSelector((state) => state.image.preview);
 
-
-
-  const img_url = useSelector((state) => state.post.img);
+  const img_url = useSelector((state) => state.post.img_url);
+  console.log(img_url)
 
   const [fileImage, setFileImage] = React.useState(
-    post.imgurl !== '' && is_edit
-      ? post.imgurl
+   img_url !== '' && is_edit
+      ? img_url
       : 'https://w7.pngwing.com/pngs/767/518/png-transparent-color-vantablack-light-graphy-white-paper-blue-white-text-thumbnail.png'
   );
-
-  const addPost = () => {
-    dispatch(postActions.addPostFB(img_url, title, year, content));
-  };
+  console.log(post.img_url)
 
   const saveFileImage = (e) => {
     const img = e.target.files[0];
@@ -53,16 +49,19 @@ const PostWrite = (props) => {
     console.log(formData); // FormData {}
     for (const keyValue of formData) console.log(keyValue);
     dispatch(postActions.imageAPI(formData));
+
     setFileImage(URL.createObjectURL(e.target.files[0]));
   };
 
+  const changeImage = (e) => {
+    setFileImage(e.target.value)
+  }
   React.useEffect(() => {
     api_post.get('/articles',{}
       ).then(function (res) {
+        console.log(res.data)
       setFileImage(res.data.post.img_url);
     })}, []);
-
-
 
   const changeContent = (e) => {
     setContent(e.target.value);
@@ -81,13 +80,11 @@ const PostWrite = (props) => {
     }
   };
 
-  // const addPost = () => {
-  //   const image = 'https://t1.daumcdn.net/cfile/tistory/99683F3359EED71619'
-  //   dispatch(postActions.addPostFB(preview,title, year, content));
-  //   // console.log(preview)
-  //   console.log(image, title, year, content)
-  //   console.log("add post 완료?!")
-  // }
+  const addPost = () => {
+    dispatch(postActions.addPostFB(img_url, title, year, content));
+    console.log(img_url, title, year, content)
+    console.log("add post 완료?!")
+  }
 
   const editPost = () => {
     dispatch(postActions.editPostFB(post_id, img_url, title, year, content));
@@ -126,8 +123,11 @@ const PostWrite = (props) => {
           <Image
             width="350"
             height="400"
-            _onChange={fileImage}
-            // src={
+            _onChange={changeImage}
+            src={
+              img_url
+              ? img_url
+              : ''}
             //   preview
             //     ? preview
             //     : "https://cdn1.vectorstock.com/i/1000x1000/50/20/no-photo-or-blank-image-icon-loading-images-vector-37375020.jpg"

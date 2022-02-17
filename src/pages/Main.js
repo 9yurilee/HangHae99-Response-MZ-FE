@@ -23,7 +23,7 @@ const Main = (props) => {
     <React.Fragment>
       {post_list.map((p, idx) => {
         return (
-          <Grid key={idx}>
+          <Grid padding="50px 70px" borderRadius="10px" key={idx}>
             <Post  {...p} />
           </Grid>
         );
