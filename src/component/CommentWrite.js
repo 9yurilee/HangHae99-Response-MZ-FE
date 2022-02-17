@@ -28,7 +28,7 @@ const CommentWrite = (props) => {
 
     dispatch(commentActions.addCommentDB(article_id, content))
     setContent("")
-
+    window.location.replace("/")
   }
 
   return (
