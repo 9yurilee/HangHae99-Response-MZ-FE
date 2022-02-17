@@ -86,8 +86,8 @@ const Detail = (props) => {
               </Grid>
             )} */}
           <CommentBox>
-            <CommentList></CommentList>
-            <CommentWrite></CommentWrite>
+            <CommentList article_id={id}></CommentList>
+            <CommentWrite article_id={id}></CommentWrite>
           </CommentBox>
 
         </Grid>
