@@ -62,7 +62,7 @@ const GridBox = styled.div`
   width: ${(props) => props.width};
   height: ${(props) => props.height};
   box-sizing: border-box;
-  margin: ${(props) => props.height};
+  margin: ${(props) => props.margin};
   ${(props) => (props.padding ? `padding: ${props.padding}` : "")}
   /* ${(props) => (props.margin ? `margin: ${props.margin}` : "")}; */
   ${(props) => (props.bg ? `background-color: ${props.bg}` : "")};
