@@ -17,9 +17,6 @@ import { actionCreators as loginActions } from "../redux/modules/user";
 function App() {
   const dispatch = useDispatch();
   const is_login = getCookie("is_login")? true : false;
-  const user = useSelector((state) => state.user);
-
-  console.log(user);
   
     React.useEffect(() => {
       if(is_login){
