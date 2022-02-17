@@ -12,13 +12,15 @@ import { actionCreators as postActions } from "../redux/modules/post";
 
 const PostWrite = (props) => {
   const dispatch = useDispatch();
+  
   const { history } = props;
+
   const user_id = useSelector((state) => state.user_id);
   const post_id = props.match.params.id;
-
   const post = useSelector((state) => state.post.post);
-
   const post_list = useSelector((state) => state.post.list);
+
+  const is_login = useSelector((state) => state.user.is_login);
 
   const _post_id = props.match.params.post_id;
   const is_edit = _post_id ? true : false;
@@ -28,18 +30,12 @@ const PostWrite = (props) => {
   const [year, setYear] = React.useState();
   const [content, setContent] = React.useState(_post ? _post.content : "");
 
-  const is_login = useSelector((state) => state.user.is_login);
-  // const preview = useSelector((state) => state.image.preview);
-
   const img_url = useSelector((state) => state.post.img_url);
-  console.log(img_url)
-
   const [fileImage, setFileImage] = React.useState(
    img_url !== '' && is_edit
       ? img_url
       : 'https://w7.pngwing.com/pngs/767/518/png-transparent-color-vantablack-light-graphy-white-paper-blue-white-text-thumbnail.png'
   );
-  console.log(post.img_url)
 
   const saveFileImage = (e) => {
     const img = e.target.files[0];
@@ -59,31 +55,26 @@ const PostWrite = (props) => {
   React.useEffect(() => {
     api_post.get('/articles',{}
       ).then(function (res) {
-        console.log(res.data)
       setFileImage(res.data.post.img_url);
     })}, []);
 
   const changeContent = (e) => {
     setContent(e.target.value);
-    console.log(e.target.value);
   };
 
   const changeTitle = (e) => {
     setTitle(e.target.value);
-    console.log(e.target.value);
   };
 
   const is_checked = (e) => {
     if (e.target.checked) {
       setYear(e.target.value);
-      console.log(e.target.value);
     }
   };
 
   const addPost = () => {
     dispatch(postActions.addPostFB(img_url, title, year, content));
     console.log(img_url, title, year, content)
-    console.log("add post 완료?!")
   }
 
   const editPost = () => {
@@ -96,22 +87,22 @@ const PostWrite = (props) => {
   //   dispatch(postActions.getOnePostAPI(_post_id));
   // }, []);
 
-  // if (!is_login) {
-  //   return (
-  //     <Grid margin="200px" padding="16px" center>
-  //       <Text size="30px" bold>
-  //         잠깐✋🏻
-  //       </Text>
-  //       <Text size="24px">로그인 후에만 글 작성이 가능합니다!</Text>
-  //       <Button
-  //         _onclick={() => {
-  //           history.replace("/login");
-  //         }}
-  //         text="로그인 하러가기"
-  //       ></Button>
-  //     </Grid>
-  //   );
-  // }
+  if (!is_login) {
+    return (
+      <Grid margin="200px" padding="16px" center>
+        <Text size="30px" bold>
+          잠깐✋🏻
+        </Text>
+        <Text size="24px">로그인 후에만 글 작성이 가능합니다!</Text>
+        <Button
+          _onclick={() => {
+            history.replace("/login");
+          }}
+          text="로그인 하러가기"
+        ></Button>
+      </Grid>
+    );
+  }
 
   return (
     <>
@@ -128,10 +119,6 @@ const PostWrite = (props) => {
               img_url
               ? img_url
               : ''}
-            //   preview
-            //     ? preview
-            //     : "https://cdn1.vectorstock.com/i/1000x1000/50/20/no-photo-or-blank-image-icon-loading-images-vector-37375020.jpg"
-            
             margin="20px 5px"
           />
           <Grid height="300">
@@ -202,7 +189,6 @@ const PostWrite = (props) => {
               height="50px"
               color="white"
               bg="#f47b6a"
-              // _onChange={onChange}
               _onclick={editPost}
               />
             ) : (
@@ -212,7 +198,6 @@ const PostWrite = (props) => {
               height="50px"
               color="white"
               bg="#f47b6a"
-              // _onChange={onChange}
               _onclick={() => {addPost()}}/>
             )}
           </Grid>

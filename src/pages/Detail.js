@@ -29,13 +29,15 @@ const Detail = (props) => {
 
   const [post, setPost] = React.useState(post_data ? post_data : null)
 
+  const editPost = () => {
+    dispatch(postActions.editPostFB())
+  }
   const onDelete = async function() {
-    if(window.confirm("delete?")){
+    if(window.confirm("정말로 삭제하시겠습니까?")){
       dispatch(postActions.deletePostFB(post_data.post_id))
-      console.log("삭제")
     }
   }
-
+  console.log(post_data)
   return (
     <>
       {post && (
@@ -47,43 +49,13 @@ const Detail = (props) => {
 
           <Grid is_flex_center>
           </Grid>
-          <button>어ㄱ</button>
           <Button
-                  text="수정"
-                  width="auto"
-                  padding="4px"
-                  margin="4px"
-                  _onclick={() => {
-                    history.push(`/postwrite/${post_data.id}`);
-                  }}
-                />
-                <Button
-                  text="삭제"
-                  width="auto"
-                  padding="4px"
-                  margin="4px"
-                  _onclick={onDelete}
-                />
-          {/* {is_me && (
-              <Grid>
-                <Button
-                  text="수정"
-                  width="auto"
-                  padding="4px"
-                  margin="4px"
-                  _onclick={() => {
-                    history.push(`/postwrite/${post_data.id}`);
-                  }}
-                />
-                <Button
-                  text="삭제"
-                  width="auto"
-                  padding="4px"
-                  margin="4px"
-                  // _onclick={onDelete}
-                />
-              </Grid>
-            )}
+            text="삭제"
+            width="auto"
+            padding="4px"
+            margin="4px"
+            _onclick={onDelete}
+          />
           <Comment>
             <CommentBox>
               <CommentList article_id={id}></CommentList>
