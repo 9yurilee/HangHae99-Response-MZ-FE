@@ -30,7 +30,7 @@ const initialPost = {
   title: "initialPost의 title",
   image: "http://www.ipon.co.kr/common/img/default_profile.png",
   content: "기본 콘텐츠222",
-  year: "2022-02-15 10:00:00",
+  year: 2022,
 };
 
 const getPostFB = () => {
@@ -49,7 +49,7 @@ const getPostFB = () => {
             post_id: p.id,
             year: p.year,
             image: p.image,
-            content: p.content,
+          // content: p.content,
             date: p.date,
           };
           post_list.push(list);
@@ -62,45 +62,32 @@ const getPostFB = () => {
   };
 };
 
-const addPostFB = () => {
+const addPostFB = (preview, title, year, content) => {
   return function (dispatch, getState, { history }) {
-    console.log("랄라");
+    // let post = { ..._post };
+
+    const formData = new FormData();
+    formData.append('image', preview)
+    formData.append('title', title)
+    formData.append('year', year)
+    formData.append('content', content)
+
     api
-      .post('/articles', {})
+      .post(
+        "/articles",
+       formData
+      )
       .then(function (response) {
-        console.log("랄라");
+        console.log(response);
       })
-      .catch(function (error) {
-        console.log(error);
+      .catch((err) => {
+        console.log(err);
+        return;
       });
+    //   };
+    // };
   };
 };
-// const addPostFB = (title, content, preview, year) => {
-//   return function(dispatch, getState, { history })
-//   api.post(title, content, preview, year)
-//   }
-// }
-//    api.post(`api/articles`, {
-//       title: title,
-//       content: content,
-//       image: preview,
-//       year: parseInt(year)
-//     }).then((response) => {
-//       console.log("랄라")
-//       // console.log(newPost)
-//     })
-//   }
-// }
-
-//       console.log("ㅅㅂ")
-//       console.log(response.data.success);
-//       dispatch(addPost(newPost));
-//       history.push("/");
-//     })
-//     .catch((error) => {
-//       console.log(error);
-//     });
-// };
 
 const deletePostFB = (post_id = null) => {
   return function (dispatch, getState, { history }) {

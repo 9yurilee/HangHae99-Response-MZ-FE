@@ -5,6 +5,7 @@ const Button = (props) => {
   const {
     text,
     _onclick,
+    _onChange,
     is_float,
     children,
     margin,
@@ -14,6 +15,7 @@ const Button = (props) => {
     size,
     bg,
     color,
+
   } = props;
 
   const styles = {
@@ -37,6 +39,7 @@ Button.defaultProps = {
   text: false,
   children: null,
   _onclick: () => {},
+  _onChange: () => {},
   is_float: false,
   margin: false,
   width: "100%",

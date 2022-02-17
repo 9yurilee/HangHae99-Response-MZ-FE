@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as imageActions } from "../redux/modules/image";
-import { api } from "./api";
+import { api, api_post } from "./api";
 
 const ImgUpload = (props) => {
   const dispatch = useDispatch();
@@ -11,40 +11,28 @@ const ImgUpload = (props) => {
   const selectFile = (e) => {
     const reader = new FileReader();
     const file = e.target.files[0];
+      dispatch(imageActions.setImage(file));
 
     reader.readAsDataURL(file);
+    const decode = window.atob(reader.result);
+    console.log(decode);
 
     reader.onloadend = () => {
       dispatch(imageActions.setPreview(reader.result));
     };
-  };
 
-  // const UploadImage = async (e) => {
-  //   e.preventDefault();
-  //   fileInput.current.click();
-  //   const formData = new FormData();
-  //   formData.append('file', e.target.files[0]);
-  //   const response = await api.post('/articles', formData);
-  // }
-
-  const uploadFB = () => {
-    let image = fileInput.current.files;
-    if (!fileInput.current || image.length === 0) {
-      window.alert("파일을 선택해주세요!");
-      return;
-    }
-    dispatch(imageActions.uploadImageFB(image[0])).then(function (response) {
-      console.log(response);
-    });
+    const raw = window.atob(reader.result);
+    console.log(raw);
   };
 
   return (
     <input
       type="file"
       onChange={selectFile}
+      name="image"
       ref={fileInput}
       disabled={is_uploading}
-      _onclick={uploadFB}
+      //_onclick={uploadFB} //에러 개많이 뜨네
       accept="image/*"
     />
   );

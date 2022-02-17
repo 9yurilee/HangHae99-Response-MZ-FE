@@ -34,11 +34,7 @@ const Input = (props) => {
             placeholder={placeholder}
             onChange={_onChange}
             value={value}
-            onKeyPress={(e) => {
-              if(e.key === "Enter"){
-                onSubmit(e);
-              }
-            }}
+
           />
         ) : (
           <ElInput type={type} placeholder={placeholder} onChange={_onChange} />

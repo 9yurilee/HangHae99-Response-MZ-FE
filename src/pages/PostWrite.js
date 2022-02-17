@@ -1,10 +1,10 @@
-import React from "react";
+import React, {useRef} from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { Button, Grid, Image, Text, Input } from "../element/index";
 import Upload from "../shared/Upload";
-import { api } from "../shared/api";
-import axios from 'axios';
+import { api, api_post } from "../shared/api";
+import axios from "axios";
 
 import { history } from "../redux/configStore";
 import { actionCreators as imageActions } from "../redux/modules/image";
@@ -13,45 +13,33 @@ import { actionCreators as postActions } from "../redux/modules/post";
 const PostWrite = (props) => {
   const dispatch = useDispatch();
   const { history } = props;
-  // <React.Fragment>
-  //   const title = useSelector((state) => state.post.title); const user_id =
-  //   useSelector((state) => state.user_id); // const post_id =
-  //   props.match.params.id; // console.log(post_id) // const post_list =
-  //   useSelector((state) => state.post.list); //_post_id 어케 받아올지 생각 //
-  //   const _post_id = props.match.params.post_id // console.log(props) // const
-  //   is_edit = _post_id ? true : false; // let _post = is_edit ?
-  //   post_list.find((p) => p.id === _post_id) : null; // const [content,
-  //   setcontent] = React.useState(_post ? _post.content : '');
-  // </React.Fragment>;
+  // const title = useSelector((state) => state.post.title);
+  const user_id = useSelector((state) => state.user_id);
+  const post_id = props.match.params.id;
+
+  const post_list = useSelector((state) => state.post.list);
+
+  const _post_id = props.match.params.post_id;
+  const is_edit = _post_id ? true : false;
+  let _post = is_edit ? post_list.find((p) => p.id === _post_id) : null;
+
+  const [year, setYear] = React.useState();
+  const [content, setContent] = React.useState(_post ? _post.content : "");
+
   const is_login = useSelector((state) => state.user.is_login);
   const preview = useSelector((state) => state.image.preview);
-
+  // const [preview, setPreview] = React.useState(null)
   const [title, setTitle] = React.useState("");
-  const [content, setContent] = React.useState("");
-  const [year, setYear] = React.useState();
 
-  const image = useSelector((state) => state.image.image)
+  const _file = React.useRef('')
+  // const [content, setContent] = React.useState("");
 
 
-  const onChangeImg = (e) => {
-    e.preventDefault();
-    const reader = new FileReader();
-    const file = e.target.files[0];
-
-    if (e.target.files) {
-      const uploadFile = e.target.files[0];
-      console.log(uploadFile)
-      const formData = new FormData();
-      formData.append("files", uploadFile);
-
-      axios({
-        method: "post",
-        url: "/articles",
-        data: formData,
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-    }
+  const onChange = (e) => {
+    const _file = e.current.file[0]
+    console.log(_file)
   }
+
 
   const changeContent = (e) => {
     setContent(e.target.value);
@@ -61,7 +49,7 @@ const PostWrite = (props) => {
   const changeTitle = (e) => {
     setTitle(e.target.value);
     console.log(e.target.value);
-  }
+  };
 
   const is_checked = (e) => {
     if (e.target.checked) {
@@ -70,10 +58,76 @@ const PostWrite = (props) => {
     }
   };
 
+  // const addPost_ = () => {
+  // let form = new FormData();
+
+  // form.append("title", title);
+  // form.append("year", parseInt(year));
+  // form.append("content", content);
+
+  // api_post
+  //   .post("/articles", form)
+  //   .then((res) => {
+  //     console.log("존나 힘드네");
+  //   })
+  //   .catch((error) => {
+  //     console.log(`Error: ${error.message}`);
+  //   });
+  // let _form = new FormData();
+
+  // const config = {
+  //   header: {
+  //     "Content-Type": "multipart/form-data",
+  //   },
+  // };
+  // console.log("안되니ㅠ");
+
+  // api_post.post("/articles", form, config)
+  //   .then((response) => {
+  //     console.log("떠라");
+  //     window.alert("야호");
+  //   })
+  // .catch((error) => {
+  //   console.log(`Error: ${error.message}`);
+  // });
+  // };
+
+  // const addPost_ = () => {
+  //   console.log("111");
+  //   let form = new FormData();
+
+  //   form.append("title", title);
+  //   form.append("year", parseInt(year));
+  //   form.append("content", content);
+  //   form.append("image", preview);
+
+  //   console.log("2222");
+  //   const accessToken = document.cookie.split("=")[1];
+
+  //   api_post
+  //     .post("http://54.180.137.157/api/articles", form,{
+  //       headers: {
+  //         authorization: `${accessToken}`
+  //       }
+  //     })
+  //     .then((res) => {
+  //       console.log("333");
+  //     })
+  //     .catch((err) => {
+  //       window.alert(err);
+  //       // history.push("/register");
+  //     });
+  // };
+
+
   const addPost = () => {
-    console.log("포스트 올리기 시작")
-    dispatch(postActions.addPostFB(title, content, preview, year))
-    console.log("포스트 올리기 끝")
+    dispatch(postActions.addPostFB(preview, title, year, content));
+    console.log(preview, title, year, content)
+    console.log("add post 완료?!")
+  }
+
+  const imgLoad = () => {
+    dispatch(imageActions.setImage(image)))
   }
 
   if (!is_login) {
@@ -94,7 +148,7 @@ const PostWrite = (props) => {
   }
 
   return (
-    <React.Fragment>
+    <>
       <Text margin="85px 0px 0px 10px" size="36px" bold>
         게시물 작성
         {/* {is_edit ? '게시글 수정' : '게시글 작성'} */}
@@ -104,14 +158,13 @@ const PostWrite = (props) => {
           <Image
             width="350"
             height="400"
-            _onChange={onChangeImg}
             src={
               preview
                 ? preview
                 : "https://cdn1.vectorstock.com/i/1000x1000/50/20/no-photo-or-blank-image-icon-loading-images-vector-37375020.jpg"
             }
             margin="20px 5px"
-            // _onChange={}
+            _onChange={}
           />
           <Grid height="300">
             <Upload />
@@ -130,7 +183,7 @@ const PostWrite = (props) => {
                 type="radio"
                 name="year"
                 value="1980"
-                id= "1980"
+                id="1980"
                 onChange={is_checked}
               />
               80년대 추억
@@ -170,15 +223,25 @@ const PostWrite = (props) => {
             color="white"
             bg="#f47b6a"
             text="돌아가기"
-            _onclick={() => history.push("/")}
+            // _onclick={() => history.push("/")}
           ></Button>
+          {/* <button
+            onClick={() => {
+              addPost_();
+            }}
+          >
+            작성이야
+          </button> */}
           <Button
             width="120px"
             height="50px"
             color="white"
             bg="#f47b6a"
             text="작성하기"
-            _onclick={addPost}
+            _onChange={onChange}
+            _onclick={() => {
+              addPost();
+            }}
           ></Button>
           {/* 수정하면 */}
           {/* <Grid padding="25px">
@@ -190,7 +253,7 @@ const PostWrite = (props) => {
           </Grid> */}
         </Grid>
       </Grid>
-    </React.Fragment>
+    </>
   );
 };
 
