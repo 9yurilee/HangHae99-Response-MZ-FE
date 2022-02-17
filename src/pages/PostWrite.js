@@ -13,7 +13,6 @@ import { actionCreators as postActions } from "../redux/modules/post";
 const PostWrite = (props) => {
   const dispatch = useDispatch();
   const { history } = props;
-  // const title = useSelector((state) => state.post.title);
   const user_id = useSelector((state) => state.user_id);
   const post_id = props.match.params.id;
 
@@ -23,23 +22,20 @@ const PostWrite = (props) => {
   const is_edit = _post_id ? true : false;
   let _post = is_edit ? post_list.find((p) => p.id === _post_id) : null;
 
+  const [title, setTitle] = React.useState("");
   const [year, setYear] = React.useState();
   const [content, setContent] = React.useState(_post ? _post.content : "");
 
   const is_login = useSelector((state) => state.user.is_login);
   const preview = useSelector((state) => state.image.preview);
-  // const [preview, setPreview] = React.useState(null)
-  const [title, setTitle] = React.useState("");
-
-  const _file = React.useRef('')
-  // const [content, setContent] = React.useState("");
 
 
-  const onChange = (e) => {
-    const _file = e.current.file[0]
-    console.log(_file)
+  const [item_url, setItem_url] = React.useState("");
+
+
+  const changeImg = (e) => {
+    setItem_url(e.target.value)
   }
-
 
   const changeContent = (e) => {
     setContent(e.target.value);
@@ -60,13 +56,13 @@ const PostWrite = (props) => {
 
   const addPost = () => {
     dispatch(postActions.addPostFB(preview, title, year, content));
-    console.log(preview, title, year, content)
+    console.log(preview)
+    console.log(title, year, content)
     console.log("add post 완료?!")
   }
 
   const imgLoad = (image) => {
     dispatch(imageActions.setImage(image))
-
   }
 
   if (!is_login) {
@@ -89,14 +85,14 @@ const PostWrite = (props) => {
   return (
     <>
       <Text margin="85px 0px 0px 10px" size="36px" bold>
-        게시물 작성
-        {/* {is_edit ? '게시글 수정' : '게시글 작성'} */}
+        {is_edit ? '게시글 수정' : '게시글 작성'}
       </Text>
       <Grid margin="90px auto" width="700" height="500">
         <Grid is_flex borderRadius="10">
           <Image
             width="350"
             height="400"
+            _onChange={changeImg}
             src={
               preview
                 ? preview
@@ -161,34 +157,30 @@ const PostWrite = (props) => {
             color="white"
             bg="#f47b6a"
             text="돌아가기"
-            // _onclick={() => history.push("/")}
+            _onclick={() => history.push("/")}
           ></Button>
-          {/* <button
-            onClick={() => {
-              addPost_();
-            }}
-          >
-            작성이야
-          </button> */}
-          <Button
-            width="120px"
-            height="50px"
-            color="white"
-            bg="#f47b6a"
-            text="작성하기"
-            _onChange={onChange}
-            _onclick={() => {
-              addPost();
-            }}
-          ></Button>
-          {/* 수정하면 */}
-          {/* <Grid padding="25px">
+          <Grid padding="25px">
             {is_edit ? (
-              <Button text="게시글 수정" _onclick={editPost}></Button>
+              <Button text="게시글 수정"             
+              width="120px"
+              height="50px"
+              color="white"
+              bg="#f47b6a"
+              text="작성하기"
+              // _onChange={onChange}
+              // _onclick={editPost}
+              />
             ) : (
-              <Button text="게시글 작성" _onclick={addPost}></Button>
+              <Button text="게시글 작성"             
+              width="120px"
+              height="50px"
+              color="white"
+              bg="#f47b6a"
+              text="작성하기"
+              // _onChange={onChange}
+              _onclick={addPost}/>
             )}
-          </Grid> */}
+          </Grid>
         </Grid>
       </Grid>
     </>

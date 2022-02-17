@@ -4,6 +4,7 @@ import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
 import { getCookie, setCookie, deleteCookie } from "../../shared/Cookie";
 import { api, api_post } from "../../shared/api";
+import axios from "axios"
 // import moment from 'moment';
 
 const SET_POST = "SET_POST";
@@ -17,6 +18,7 @@ const getPost = createAction(GET_POST, (post_list) => ({ post_list }));
 const addPost = createAction(ADD_POST, (post) => ({ post }));
 const editPost = createAction(EDIT_POST, (post) => ({ post }));
 const deletePost = createAction(DELETE_POST, (post_id) => ({ post_id }));
+
 
 const initialState = {
   list: [],
@@ -49,7 +51,7 @@ const getPostFB = () => {
             post_id: p.id,
             year: p.year,
             image: p.image,
-          // content: p.content,
+            content: p.content,
             date: p.date,
           };
           post_list.push(list);
@@ -62,21 +64,18 @@ const getPostFB = () => {
   };
 };
 
-const addPostFB = (preview, title, year, content) => {
+const addPostFB = (image, title, year, content) => {
   return function (dispatch, getState, { history }) {
     // let post = { ..._post };
 
     const formData = new FormData();
-    formData.append('image', preview)
-    formData.append('title', title)
-    formData.append('year', year)
-    formData.append('content', content)
+    formData.append("image", image);
+    formData.append("title", title);
+    formData.append("year", year);
+    formData.append("content", content);
 
-    api
-      .post(
-        "/articles",
-       formData
-      )
+    axios
+      .post('/articles', formData)
       .then(function (response) {
         console.log(response);
       })
@@ -88,6 +87,8 @@ const addPostFB = (preview, title, year, content) => {
     // };
   };
 };
+
+
 
 const deletePostFB = (post_id = null) => {
   return function (dispatch, getState, { history }) {
@@ -106,6 +107,7 @@ const deletePostFB = (post_id = null) => {
       });
   };
 };
+
 
 export default handleActions(
   {
