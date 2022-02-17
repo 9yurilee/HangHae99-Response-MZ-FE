@@ -10,12 +10,17 @@ const Upload = (props) => {
 
 
   const selectFile = (e) => {
+    const accessToken = document.cookie.split("=")[1];
+
     const img = e.target.files[0]
+    console.log(img)
     const formData = new FormData();
     formData.append('image', img);
+    console.log(formData);
 
     dispatch(imageActions.uploadImageDB(formData));
-    for (const keyValue in formData) console.log(keyValue)
+
+    // for (const keyValue in formData) console.log(keyValue)
 
     const reader = new FileReader();
     const file = fileInput.current.files[0]
@@ -28,6 +33,17 @@ const Upload = (props) => {
       console.log(reader.result)
     }
   }
+
+
+  // const saveFileImage = (e) => {
+  //   const img = e.target.files[0];
+  //   const formData = new FormData();
+  //   formData.append('imgUrl', img);
+  //   console.log(formData); // FormData {}
+  //   for (const keyValue of formData) console.log(keyValue);
+  //   dispatch(postActions.imageAPI(formData));
+  //   setFileImage(URL.createObjectURL(e.target.files[0]));
+  // };
 
   return (
       <input

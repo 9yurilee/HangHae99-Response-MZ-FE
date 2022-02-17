@@ -29,21 +29,40 @@ const PostWrite = (props) => {
   const [content, setContent] = React.useState(_post ? _post.content : "");
 
   const is_login = useSelector((state) => state.user.is_login);
-  const preview = useSelector((state) => state.image.preview);
+  // const preview = useSelector((state) => state.image.preview);
 
 
-  const [item_url, setItem_url] = React.useState("");
+
+  const img_url = useSelector((state) => state.post.img);
 
   const [fileImage, setFileImage] = React.useState(
-    post.image !== '' && is_edit
-      ? post.image
+    post.imgurl !== '' && is_edit
+      ? post.imgurl
       : 'https://w7.pngwing.com/pngs/767/518/png-transparent-color-vantablack-light-graphy-white-paper-blue-white-text-thumbnail.png'
   );
 
+  const addPost = () => {
+    dispatch(postActions.addPostFB(img_url, title, year, content));
+  };
 
-  const changeImg = (e) => {
-    setItem_url(e.target.value)
-  }
+  const saveFileImage = (e) => {
+    const img = e.target.files[0];
+    console.log(img)
+    const formData = new FormData();
+    formData.append('image', img);
+    console.log(formData); // FormData {}
+    for (const keyValue of formData) console.log(keyValue);
+    dispatch(postActions.imageAPI(formData));
+    setFileImage(URL.createObjectURL(e.target.files[0]));
+  };
+
+  React.useEffect(() => {
+    api_post.get('/articles',{}
+      ).then(function (res) {
+      setFileImage(res.data.post.img_url);
+    })}, []);
+
+
 
   const changeContent = (e) => {
     setContent(e.target.value);
@@ -62,15 +81,16 @@ const PostWrite = (props) => {
     }
   };
 
-  const addPost = () => {
-    dispatch(postActions.addPostFB(title, year, content));
-    // console.log(preview)
-    console.log(title, year, content)
-    console.log("add post 완료?!")
-  }
+  // const addPost = () => {
+  //   const image = 'https://t1.daumcdn.net/cfile/tistory/99683F3359EED71619'
+  //   dispatch(postActions.addPostFB(preview,title, year, content));
+  //   // console.log(preview)
+  //   console.log(image, title, year, content)
+  //   console.log("add post 완료?!")
+  // }
 
   const editPost = () => {
-    dispatch(postActions.editPostFB(post_id, preview, title, year, content));
+    dispatch(postActions.editPostFB(post_id, img_url, title, year, content));
     console.log("edit dispatch 완료")
 
   };
@@ -79,43 +99,44 @@ const PostWrite = (props) => {
   //   dispatch(postActions.getOnePostAPI(_post_id));
   // }, []);
 
-  if (!is_login) {
-    return (
-      <Grid margin="200px" padding="16px" center>
-        <Text size="30px" bold>
-          잠깐✋🏻
-        </Text>
-        <Text size="24px">로그인 후에만 글 작성이 가능합니다!</Text>
-        <Button
-          _onclick={() => {
-            history.replace("/login");
-          }}
-          text="로그인 하러가기"
-        ></Button>
-      </Grid>
-    );
-  }
+  // if (!is_login) {
+  //   return (
+  //     <Grid margin="200px" padding="16px" center>
+  //       <Text size="30px" bold>
+  //         잠깐✋🏻
+  //       </Text>
+  //       <Text size="24px">로그인 후에만 글 작성이 가능합니다!</Text>
+  //       <Button
+  //         _onclick={() => {
+  //           history.replace("/login");
+  //         }}
+  //         text="로그인 하러가기"
+  //       ></Button>
+  //     </Grid>
+  //   );
+  // }
 
   return (
     <>
-      <Text margin="85px 0px 0px 10px" size="36px" bold>
+      <Text margin="100px" size="36px" bold>
         {is_edit ? '게시글 수정' : '게시글 작성'}
       </Text>
-      <Grid margin="90px auto" width="700" height="500">
+      <Grid margin="100px auto" width="700" height="500">
         <Grid is_flex borderRadius="10">
           <Image
             width="350"
             height="400"
-            _onChange={changeImg}
-            src={
-              preview
-                ? preview
-                : "https://cdn1.vectorstock.com/i/1000x1000/50/20/no-photo-or-blank-image-icon-loading-images-vector-37375020.jpg"
-            }
+            _onChange={fileImage}
+            // src={
+            //   preview
+            //     ? preview
+            //     : "https://cdn1.vectorstock.com/i/1000x1000/50/20/no-photo-or-blank-image-icon-loading-images-vector-37375020.jpg"
+            
             margin="20px 5px"
           />
           <Grid height="300">
-            <Upload />
+            {/* <Upload /> */}
+            <Input type="file" _onChange={saveFileImage}/>
             <Text text="타이틀"></Text>{" "}
             <Input type="text" _onChange={changeTitle} />
             <Text
@@ -192,7 +213,7 @@ const PostWrite = (props) => {
               color="white"
               bg="#f47b6a"
               // _onChange={onChange}
-              _onclick={addPost}/>
+              _onclick={() => {addPost()}}/>
             )}
           </Grid>
         </Grid>
