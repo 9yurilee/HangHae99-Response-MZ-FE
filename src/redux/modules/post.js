@@ -76,48 +76,41 @@ const addPostFB = ( img_url, title, year, content) => {
     })
       console.log(img_url, title, year, content)
       .then(function (response) {
-        console.log(response);
+        window.alert("글 작성이 완료되었습니다! 글을 확인해보세요!")
+        window.location.reload('/');
       })
       .catch((err) => {
         console.log(err);
         return;
       });
-    //   };
-    // };
   };
 };
 
-const editPostFB = (post_id, img_url, title, year, content) => {
+const editPostFB = (post_id, image, title, year, content) => {
   return async function (dispatch, useState, { history }) {
     const accessToken = document.cookie.split("=")[1];
 
-    api_post.post(
-      `/articles/${post_id}`,
-      { post_id, img_url, title, year, content },
-      {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      }
-    );
-    console.log("수정중").then(function (res) {
-      console.log("수정완료!");
-      // history.replace('/');
+    api_post.post(`/articles/${post_id}`,
+      { image, title, year: parseInt(year), content }
+    ).then(function (res) {
+      window.alert("수정이 완료되었습니다!")
+      history.replace('/');
     });
   };
 };
 
 const deletePostFB = (post_id = null) => {
   return function (dispatch, getState, { history }) {
-    const _post_idx = getState().post.list.findIndex(
-      (p) => p.post_id === post_id
-    );
+    const _post_idx = getState().post.list.findIndex((p) => p.post_id === post_id);
     api
       .delete(`/articles/${post_id}`, {})
       .then(function (response) {
-        console.log(response);
         dispatch(deletePost(_post_idx));
-        window.location.reload();
+        window.alert("삭제가 완료되었습니다")
+        window.location.reload('/');
       })
       .catch((error) => {
+        window.alert("삭제 중 에러가 발생했습니다")
         console.error(error);
       });
   };
