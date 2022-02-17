@@ -55,8 +55,8 @@ const PostWrite = (props) => {
   };
 
   const addPost = () => {
-    dispatch(postActions.addPostFB(preview, title, year, content));
-    console.log(preview)
+    dispatch(postActions.addPostFB(title, year, content));
+    // console.log(preview)
     console.log(title, year, content)
     console.log("add post 완료?!")
   }

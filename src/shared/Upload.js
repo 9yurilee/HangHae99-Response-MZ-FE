@@ -1,19 +1,22 @@
-import React, { useRef } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as imageActions } from "../redux/modules/image";
 
-const ImgUpload = (props) => {
+const Upload = (props) => {
+
   const dispatch = useDispatch();
+  // const is_uploading = useSelector(state => state.image.uploading);
   const fileInput = React.useRef();
 
 
   const selectFile = (e) => {
     const img = e.target.files[0]
     const formData = new FormData();
-    formData.append('image', img)
+    formData.append('image', img);
     console.log(formData)
     dispatch(imageActions.uploadImageDB(formData));
-    for(const keyValue in formData) console.log(keyValue)
+    for (const keyValue in formData)
+    console.log(keyValue)
     console.log(img)
 
     const reader = new FileReader();
@@ -35,4 +38,4 @@ const ImgUpload = (props) => {
   );
 };
 
-export default ImgUpload;
+export default Upload;

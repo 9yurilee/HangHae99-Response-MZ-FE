@@ -1,17 +1,21 @@
 import { createAction, handleActions } from "redux-actions";
 import produce from "immer";
-import { api_post, apis } from "../../shared/api";
+import { apis } from "../../shared/api";
 
-// // actions
 const UPLOADING = "UPLOADING";
-const SET_PREVIEW = "SET_PREVIEW";
-const SET_IMAGE = "SET_IMAGE";
+const UPLOAD_IMAGE = "UPLOAD_IMAGE";
+const SET_PREVIEW = "SET_PREVIEW"
 
-// action creators
 const uploading = createAction(UPLOADING, (uploading) => ({ uploading }));
+const uploadImage = createAction(UPLOAD_IMAGE, (image_url) => ({ image_url }));
 const setPreview = createAction(SET_PREVIEW, (preview) => ({ preview }));
 
-// middleWear
+const initialState = {
+  image: "",
+  uploading: false,
+  preview: null,
+};
+
 const uploadImageDB = (image) => {
   return function (dispatch, getState, { history }) {
     apis
@@ -23,38 +27,23 @@ const uploadImageDB = (image) => {
       .catch((error) => {
         console.log("이미지 업로드 실패");
         alert(error.response.data.errorMessage);
-        // window.alert(error.errorMessage)
         return;
       });
     dispatch(uploading(true));
   };
 };
 
-const getImageFB = (file) => {
-  // for (const keyValue of file) console.log(keyValue);
-  return async function (dispatch, useState, { history }) {
-    api_post.post("/articles", file).then(function (res) {
-      console.log(res.data.image_url);
-      // dispatch(getImageUrl(res.data.image_url));
-    });
-  };
-};
-
-// initial state
-const initialState = {
-  image: "",
-  uploading: false,
-  preview: null,
-};
-
-// reducer
 export default handleActions(
   {
     [UPLOADING]: (state, action) =>
       produce(state, (draft) => {
+        draft.image_url = action.payload.image_url;
         draft.uploading = action.payload.uploading;
       }),
-
+    [UPLOADING]: (state, action) =>
+      produce(state, (draft) => {
+        draft.uploading = action.payload.uploading;
+      }),
     [SET_PREVIEW]: (state, action) =>
       produce(state, (draft) => {
         draft.preview = action.payload.preview;
@@ -64,6 +53,7 @@ export default handleActions(
 );
 
 const actionCreators = {
+  uploadImage,
   uploadImageDB,
   setPreview,
 };

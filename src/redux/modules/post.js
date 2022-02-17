@@ -64,12 +64,12 @@ const getPostFB = () => {
   };
 };
 
-const addPostFB = (image, title, year, content) => {
+const addPostFB = ( title, year, content) => {
   return function (dispatch, getState, { history }) {
     // let post = { ..._post };
 
     const formData = new FormData();
-    formData.append("image", image);
+    // formData.append("image", image);
     formData.append("title", title);
     formData.append("year", year);
     formData.append("content", content);
