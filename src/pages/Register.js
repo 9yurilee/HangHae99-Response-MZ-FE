@@ -65,7 +65,7 @@ const RegisterContent = styled.div`
         font-family: 'DungGeunMo'; font-size: 45px; color: #fff; text-shadow: 4px 4px 0px #1f969c, 8px 8px 0px #59c1c2, 12px 12px 0px #e3fdf5; letter-spacing: 10px; margin: 0 0 60px 0;
     }
     input {
-        border-radius: 5px; padding: 15px 10px; background-color: transparent; border: 2px solid #418b8f; outline-color: #1f969c; letter-spacing: 1px; margin-bottom: 30px;
+        border-radius: 5px; padding: 15px 10px; background-color: transparent; border: 2px solid #418b8f; outline-color: #1f969c; letter-spacing: 1px;
     }
 `;
 

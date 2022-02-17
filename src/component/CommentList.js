@@ -22,7 +22,7 @@ const CommentList = (props) => {
 
   return (
     <React.Fragment>
-      <Grid padding="15px" border="2px solid #1f969c">
+      <Grid padding="0 0 16px 0" border="2px solid #1f969c">
         {
           comment_list[article_id].map(c => {
             return <CommentItem key={c.id} {...c} is_me={c.user_id === user_id}></CommentItem>
@@ -61,7 +61,7 @@ const CommentItem = (props) => {
                 <Text margin="0 0 0 30px" size="12px">{date}</Text>
             </Grid>
             {
-              props.is_me ? <Button width="100px" _onclick={deleteComment}>삭제</Button> : null
+              props.is_me ? <Button width="80px" margin="7px 0 7px 15px" _onclick={deleteComment}>삭제</Button> : null
             }
         </Grid>
     )
