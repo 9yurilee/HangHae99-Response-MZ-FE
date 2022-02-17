@@ -66,6 +66,7 @@ const PostWrite = (props) => {
 
   const imgLoad = (image) => {
     dispatch(imageActions.setImage(image))
+
   }
 
   if (!is_login) {
