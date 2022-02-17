@@ -30,8 +30,15 @@ const PostWrite = (props) => {
   const preview = useSelector((state) => state.image.preview);
   // const [preview, setPreview] = React.useState(null)
   const [title, setTitle] = React.useState("");
+
+  const _file = React.useRef('')
   // const [content, setContent] = React.useState("");
 
+
+  const onChange = (e) => {
+    const _file = e.current.file[0]
+    console.log(_file)
+  }
 
 
   const changeContent = (e) => {
@@ -115,7 +122,12 @@ const PostWrite = (props) => {
 
   const addPost = () => {
     dispatch(postActions.addPostFB(preview, title, year, content));
+    console.log(preview, title, year, content)
     console.log("add post 완료?!")
+  }
+
+  const imgLoad = () => {
+    dispatch(imageActions.setImage(image)))
   }
 
   if (!is_login) {
@@ -152,7 +164,7 @@ const PostWrite = (props) => {
                 : "https://cdn1.vectorstock.com/i/1000x1000/50/20/no-photo-or-blank-image-icon-loading-images-vector-37375020.jpg"
             }
             margin="20px 5px"
-            // _onChange={}
+            _onChange={}
           />
           <Grid height="300">
             <Upload />
@@ -226,6 +238,7 @@ const PostWrite = (props) => {
             color="white"
             bg="#f47b6a"
             text="작성하기"
+            _onChange={onChange}
             _onclick={() => {
               addPost();
             }}
