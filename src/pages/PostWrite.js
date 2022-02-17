@@ -64,8 +64,9 @@ const PostWrite = (props) => {
     console.log("add post 완료?!")
   }
 
-  const imgLoad = (props) => {
-    dispatch(imageActions.setImage(props.image))
+  const imgLoad = (image) => {
+    dispatch(imageActions.setImage(image))
+
   }
 
   if (!is_login) {
@@ -102,7 +103,6 @@ const PostWrite = (props) => {
                 : "https://cdn1.vectorstock.com/i/1000x1000/50/20/no-photo-or-blank-image-icon-loading-images-vector-37375020.jpg"
             }
             margin="20px 5px"
-            // _onChange={}
           />
           <Grid height="300">
             <Upload />
