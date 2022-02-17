@@ -17,7 +17,7 @@ const Login = ()=> {
           return;
         }
         dispatch(loginAction.loginDB(id, password));
-        history.replace("/");
+        window.location.reload("/")
     };
 
     return(

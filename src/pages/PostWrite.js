@@ -12,62 +12,80 @@ import { actionCreators as postActions } from "../redux/modules/post";
 
 const PostWrite = (props) => {
   const dispatch = useDispatch();
+  
   const { history } = props;
-  // const title = useSelector((state) => state.post.title);
+
   const user_id = useSelector((state) => state.user_id);
   const post_id = props.match.params.id;
-
+  const post = useSelector((state) => state.post.post);
   const post_list = useSelector((state) => state.post.list);
+
+  const is_login = useSelector((state) => state.user.is_login);
 
   const _post_id = props.match.params.post_id;
   const is_edit = _post_id ? true : false;
   let _post = is_edit ? post_list.find((p) => p.id === _post_id) : null;
 
+  const [title, setTitle] = React.useState("");
   const [year, setYear] = React.useState();
   const [content, setContent] = React.useState(_post ? _post.content : "");
 
-  const is_login = useSelector((state) => state.user.is_login);
-  const preview = useSelector((state) => state.image.preview);
-  // const [preview, setPreview] = React.useState(null)
-  const [title, setTitle] = React.useState("");
+  const img_url = useSelector((state) => state.post.img_url);
+  const [fileImage, setFileImage] = React.useState(
+   img_url !== '' && is_edit
+      ? img_url
+      : 'https://w7.pngwing.com/pngs/767/518/png-transparent-color-vantablack-light-graphy-white-paper-blue-white-text-thumbnail.png'
+  );
 
-  const _file = React.useRef('')
-  // const [content, setContent] = React.useState("");
+  const saveFileImage = (e) => {
+    const img = e.target.files[0];
+    console.log(img)
+    const formData = new FormData();
+    formData.append('image', img);
+    console.log(formData); // FormData {}
+    for (const keyValue of formData) console.log(keyValue);
+    dispatch(postActions.imageAPI(formData));
 
+    setFileImage(URL.createObjectURL(e.target.files[0]));
+  };
 
-  const onChange = (e) => {
-    const _file = e.current.file[0]
-    console.log(_file)
+  const changeImage = (e) => {
+    setFileImage(e.target.value)
   }
-
+  React.useEffect(() => {
+    api_post.get('/articles',{}
+      ).then(function (res) {
+      setFileImage(res.data.post.img_url);
+    })}, []);
 
   const changeContent = (e) => {
     setContent(e.target.value);
-    console.log(e.target.value);
   };
 
   const changeTitle = (e) => {
     setTitle(e.target.value);
-    console.log(e.target.value);
   };
 
   const is_checked = (e) => {
     if (e.target.checked) {
       setYear(e.target.value);
-      console.log(e.target.value);
     }
   };
 
   const addPost = () => {
-    dispatch(postActions.addPostFB(preview, title, year, content));
-    console.log(preview, title, year, content)
-    console.log("add post 완료?!")
+    dispatch(postActions.addPostFB(img_url, title, year, content));
+    console.log(img_url, title, year, content)
   }
 
-  const imgLoad = (image) => {
-    dispatch(imageActions.setImage(image))
+  const editPost = () => {
+    dispatch(postActions.editPostFB(post_id, img_url, title, year, content));
+    console.log("edit dispatch 완료")
 
-  }
+  };
+  // // 새로고침 시 데이터 유지
+  // React.useEffect(() => {
+  //   dispatch(postActions.getOnePostAPI(_post_id));
+  // }, []);
 
   if (!is_login) {
     return (
@@ -88,24 +106,24 @@ const PostWrite = (props) => {
 
   return (
     <>
-      <Text margin="85px 0px 0px 10px" size="36px" bold>
-        게시물 작성
-        {/* {is_edit ? '게시글 수정' : '게시글 작성'} */}
+      <Text margin="100px" size="36px" bold>
+        {is_edit ? '게시글 수정' : '게시글 작성'}
       </Text>
-      <Grid margin="90px auto" width="700" height="500">
+      <Grid margin="100px auto" width="700" height="500">
         <Grid is_flex borderRadius="10">
           <Image
             width="350"
             height="400"
+            _onChange={changeImage}
             src={
-              preview
-                ? preview
-                : "https://cdn1.vectorstock.com/i/1000x1000/50/20/no-photo-or-blank-image-icon-loading-images-vector-37375020.jpg"
-            }
+              img_url
+              ? img_url
+              : ''}
             margin="20px 5px"
           />
           <Grid height="300">
-            <Upload />
+            {/* <Upload /> */}
+            <Input type="file" _onChange={saveFileImage}/>
             <Text text="타이틀"></Text>{" "}
             <Input type="text" _onChange={changeTitle} />
             <Text
@@ -161,34 +179,28 @@ const PostWrite = (props) => {
             color="white"
             bg="#f47b6a"
             text="돌아가기"
-            // _onclick={() => history.push("/")}
+            _onclick={() => history.push("/")}
           ></Button>
-          {/* <button
-            onClick={() => {
-              addPost_();
-            }}
-          >
-            작성이야
-          </button> */}
-          <Button
-            width="120px"
-            height="50px"
-            color="white"
-            bg="#f47b6a"
-            text="작성하기"
-            _onChange={onChange}
-            _onclick={() => {
-              addPost();
-            }}
-          ></Button>
-          {/* 수정하면 */}
-          {/* <Grid padding="25px">
+          <Grid padding="25px">
             {is_edit ? (
-              <Button text="게시글 수정" _onclick={editPost}></Button>
+              <Button
+              text="수정완료"             
+              width="120px"
+              height="50px"
+              color="white"
+              bg="#f47b6a"
+              _onclick={editPost}
+              />
             ) : (
-              <Button text="게시글 작성" _onclick={addPost}></Button>
+              <Button
+              text="게시글 작성"             
+              width="120px"
+              height="50px"
+              color="white"
+              bg="#f47b6a"
+              _onclick={() => {addPost()}}/>
             )}
-          </Grid> */}
+          </Grid>
         </Grid>
       </Grid>
     </>

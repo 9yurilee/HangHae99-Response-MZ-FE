@@ -4,6 +4,7 @@ import { actionCreators as commentActions } from "../redux/modules/comment";
 import { useDispatch, useSelector } from "react-redux";
 import { history } from "../redux/configStore";
 import {getCookie} from "../shared/Cookie"
+import styled from "styled-components";
 
 const CommentWrite = (props) => {
   const dispatch = useDispatch();
@@ -28,11 +29,12 @@ const CommentWrite = (props) => {
 
     dispatch(commentActions.addCommentDB(article_id, content))
     setContent("")
+    window.alert("댓글 작성이 완료되었습니다!")
     window.location.replace("/")
   }
 
   return (
-    <React.Fragment>
+    <CommentW>
       <Grid padding="16px" is_flex_center>
         <Input
           placeholder="댓글 내용을 입력해주세요 :)"
@@ -40,14 +42,20 @@ const CommentWrite = (props) => {
           value={content}
           onSubmit={write}
           is_submit
-          width="420px"
+          width="480px"
         />
-        <Button width="100px" margin="0px 2px 0px 2px" _onclick={write}>
+        <Button width="80px" padding="18px 0" margin="0px 0px 0px 15px" size="16px" _onclick={write}>
           작성
         </Button>
       </Grid>
-    </React.Fragment>
+    </CommentW>
   );
 };
+
+const CommentW = styled.div`
+  input{
+    border-radius: 5px; padding: 15px 10px; background-color: transparent; border: 2px solid #418b8f; outline-color: #1f969c; letter-spacing: 1px; background-color: #fff;
+  }
+`;
 
 export default CommentWrite;

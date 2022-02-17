@@ -29,13 +29,15 @@ const Detail = (props) => {
 
   const [post, setPost] = React.useState(post_data ? post_data : null)
 
+  const editPost = () => {
+    dispatch(postActions.editPostFB())
+  }
   const onDelete = async function() {
-    if(window.confirm("delete?")){
+    if(window.confirm("정말로 삭제하시겠습니까?")){
       dispatch(postActions.deletePostFB(post_data.post_id))
-      console.log("삭제")
     }
   }
-
+  console.log(post_data)
   return (
     <>
       {post && (
@@ -44,58 +46,32 @@ const Detail = (props) => {
             상세페이지
           </Text>
           <Post {...post} is_me={post_data.user_id === post_data?.id} />
-          {/*  is_me={post.user_info.user_id === user_info?.uid} */}
-          {/*  is_me={post_data.user_info.user_id === user_info?.uid} */}
 
           <Grid is_flex_center>
-            <Button
-              text="수정"
-              width="auto"
-              padding="4px"
-              margin="4px"
-              _onclick={() => {
-                history.push(`/postwrite/${post_data.post_id}`);
-              }}
-            />
-            <Button
-              text="삭제"
-              width="auto"
-              padding="4px"
-              margin="4px"
-              _onclick={onDelete}
-            />
           </Grid>
-          {/* {props.is_me && (
-              <Grid>
-                <Button
-                  text="수정"
-                  width="auto"
-                  padding="4px"
-                  margin="4px"
-                  _onclick={() => {
-                    history.push(`/write/${props.id}`);
-                  }}
-                />
-                <Button
-                  text="삭제"
-                  width="auto"
-                  padding="4px"
-                  margin="4px"
-                  // _onclick={onDelete}
-                />
-              </Grid>
-            )} */}
-          <CommentBox>
-            <CommentList article_id={id}></CommentList>
-            <CommentWrite article_id={id}></CommentWrite>
-          </CommentBox>
-
+          <Button
+            text="삭제"
+            width="auto"
+            padding="4px"
+            margin="4px"
+            _onclick={onDelete}
+          />
+          <Comment>
+            <CommentBox>
+              <CommentList article_id={id}></CommentList>
+              <CommentWrite article_id={id}></CommentWrite>
+            </CommentBox>
+          </Comment>
         </Grid>
         
       )}
     </>
   );
 };
+
+const Comment = styled.div`
+  padding: 0 20%;
+`;
 
 const CommentBox = styled.div`
   width: auto;

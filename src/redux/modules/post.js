@@ -3,7 +3,8 @@ import { useSelector } from "react-redux";
 import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
 import { getCookie, setCookie, deleteCookie } from "../../shared/Cookie";
-import { api, api_post } from "../../shared/api";
+import { api, apis, api_post } from "../../shared/api";
+import axios from "axios";
 // import moment from 'moment';
 
 const SET_POST = "SET_POST";
@@ -12,14 +13,20 @@ const ADD_POST = "ADD_POST";
 const EDIT_POST = "EDIT_POST";
 const DELETE_POST = "DELETE_POST";
 
+const IMAGE_URL = "IMAGE_URL";
+
 const setPost = createAction(SET_POST, (post_list) => ({ post_list }));
 const getPost = createAction(GET_POST, (post_list) => ({ post_list }));
 const addPost = createAction(ADD_POST, (post) => ({ post }));
 const editPost = createAction(EDIT_POST, (post) => ({ post }));
 const deletePost = createAction(DELETE_POST, (post_id) => ({ post_id }));
 
+const getImageUrl = createAction(IMAGE_URL, (img_url) => ({ img_url }));
+
 const initialState = {
   list: [],
+  post: [],
+  img_url: "",
 };
 
 const initialPost = {
@@ -28,7 +35,7 @@ const initialPost = {
   },
   post_id: "post_id",
   title: "initialPost의 title",
-  image: "http://www.ipon.co.kr/common/img/default_profile.png",
+  img_url: "http://www.ipon.co.kr/common/img/default_profile.png",
   content: "기본 콘텐츠222",
   year: 2022,
 };
@@ -38,7 +45,6 @@ const getPostFB = () => {
     api
       .get("/articles", {})
       .then(function (response) {
-        console.log("안녕");
         const postDB = response.data.articles;
 
         const post_list = [];
@@ -49,7 +55,7 @@ const getPostFB = () => {
             post_id: p.id,
             year: p.year,
             image: p.image,
-          // content: p.content,
+            content: p.content,
             date: p.date,
           };
           post_list.push(list);
@@ -62,50 +68,64 @@ const getPostFB = () => {
   };
 };
 
-const addPostFB = (preview, title, year, content) => {
+const addPostFB = ( img_url, title, year, content) => {
   return function (dispatch, getState, { history }) {
-    // let post = { ..._post };
-
-    const formData = new FormData();
-    formData.append('image', preview)
-    formData.append('title', title)
-    formData.append('year', year)
-    formData.append('content', content)
-
-    api
-      .post(
-        "/articles",
-       formData
-      )
+    const accessToken = document.cookie.split("=")[1];
+    api.post("/articles", {
+     image: img_url, title, year: parseInt(year), content
+    })
+      console.log(img_url, title, year, content)
       .then(function (response) {
-        console.log(response);
+        window.alert("글 작성이 완료되었습니다! 글을 확인해보세요!")
+        window.location.reload('/');
       })
       .catch((err) => {
         console.log(err);
         return;
       });
-    //   };
-    // };
+  };
+};
+
+const editPostFB = (post_id, image, title, year, content) => {
+  return async function (dispatch, useState, { history }) {
+    const accessToken = document.cookie.split("=")[1];
+
+    api_post.post(`/articles/${post_id}`,
+      { image, title, year: parseInt(year), content }
+    ).then(function (res) {
+      window.alert("수정이 완료되었습니다!")
+      history.replace('/');
+    });
   };
 };
 
 const deletePostFB = (post_id = null) => {
   return function (dispatch, getState, { history }) {
-    const _post_idx = getState().post.list.findIndex(
-      (p) => p.post_id === post_id
-    );
+    const _post_idx = getState().post.list.findIndex((p) => p.post_id === post_id);
     api
       .delete(`/articles/${post_id}`, {})
       .then(function (response) {
-        console.log(response);
         dispatch(deletePost(_post_idx));
-        window.location.reload();
+        window.alert("삭제가 완료되었습니다")
+        window.location.reload('/');
       })
       .catch((error) => {
+        window.alert("삭제 중 에러가 발생했습니다")
         console.error(error);
       });
   };
 };
+
+const imageAPI = (image) => {
+  for (const keyValue of image) console.log(keyValue);
+  return async function (dispatch, useState, { history }) {
+    apis.image(image).then(function (res) {
+      console.log(res.data.image);
+      dispatch(getImageUrl(res.data.image));
+    });
+  };
+};
+
 
 export default handleActions(
   {
@@ -124,6 +144,10 @@ export default handleActions(
           (p) => p.post_id !== action.payload.post_id
         );
       }),
+    [IMAGE_URL]: (state, action) =>
+      produce(state, (draft) => {
+        draft.img_url = action.payload.img_url;
+      }),
   },
   initialState
 );
@@ -134,7 +158,9 @@ const actionCreators = {
   addPost,
   getPostFB,
   addPostFB,
+  editPostFB,
   deletePostFB,
+  imageAPI,
 };
 
 export { actionCreators };
