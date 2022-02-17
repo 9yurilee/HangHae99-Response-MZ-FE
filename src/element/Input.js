@@ -56,7 +56,7 @@ Input.defaultProps = {
   onSubmit: () => {},
   _onChange: () => {},
   width: "auto",
-  margin: "0",
+  margin: "auto",
   is_preview: false,
 };
 

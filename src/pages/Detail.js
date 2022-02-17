@@ -83,18 +83,23 @@ const Detail = (props) => {
                   // _onclick={onDelete}
                 />
               </Grid>
-            )} */}
-          <CommentBox>
-            <CommentList article_id={id}></CommentList>
-            <CommentWrite article_id={id}></CommentWrite>
-          </CommentBox>
-
+            )}
+          <Comment>
+            <CommentBox>
+              <CommentList article_id={id}></CommentList>
+              <CommentWrite article_id={id}></CommentWrite>
+            </CommentBox>
+          </Comment>
         </Grid>
         
       )}
     </>
   );
 };
+
+const Comment = styled.div`
+  padding: 0 20%;
+`;
 
 const CommentBox = styled.div`
   width: auto;

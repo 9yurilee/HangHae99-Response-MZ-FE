@@ -28,7 +28,8 @@ const CommentWrite = (props) => {
 
     dispatch(commentActions.addCommentDB(article_id, content))
     setContent("")
-
+    window.alert("댓글 작성이 완료되었습니다!")
+    window.location.replace("/")
   }
 
   return (
