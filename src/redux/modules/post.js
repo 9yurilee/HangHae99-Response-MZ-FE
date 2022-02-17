@@ -49,7 +49,7 @@ const getPostFB = () => {
             post_id: p.id,
             year: p.year,
             image: p.image,
-            content: p.content,
+          // content: p.content,
             date: p.date,
           };
           post_list.push(list);
@@ -64,13 +64,6 @@ const getPostFB = () => {
 
 const addPostFB = (preview, title, year, content) => {
   return function (dispatch, getState, { history }) {
-    const _post = {
-      image: preview,
-      title: title,
-      year: year,
-      content: content,
-    };
-
     // let post = { ..._post };
 
     const formData = new FormData();
@@ -82,7 +75,7 @@ const addPostFB = (preview, title, year, content) => {
     api
       .post(
         "/articles",
-        formData
+       formData
       )
       .then(function (response) {
         console.log(response);

@@ -11,19 +11,25 @@ const ImgUpload = (props) => {
   const selectFile = (e) => {
     const reader = new FileReader();
     const file = e.target.files[0];
-    console.log(file)
+      dispatch(imageActions.setImage(file));
+
     reader.readAsDataURL(file);
+    const decode = window.atob(reader.result);
+    console.log(decode);
 
     reader.onloadend = () => {
       dispatch(imageActions.setPreview(reader.result));
-      console.log(reader.result)
     };
+
+    const raw = window.atob(reader.result);
+    console.log(raw);
   };
 
   return (
     <input
       type="file"
       onChange={selectFile}
+      name="image"
       ref={fileInput}
       disabled={is_uploading}
       //_onclick={uploadFB} //에러 개많이 뜨네
